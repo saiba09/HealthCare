@@ -44,8 +44,8 @@ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutati
          			// c.output(part);
        			
    				Put put_object = new Put(Bytes.toBytes(row_id));
-row_id = row_id +1;	
-     			    byte[] data = Bytes.toBytes( parts[0]);
+				row_id = row_id +1;	
+     			    	byte[] data = Bytes.toBytes( parts[0]);
    					put_object.addColumn(FAMILY, beneficiry_id,data);
    					put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2]));
 					c.output(put_object);
@@ -72,7 +72,7 @@ row_id = row_id +1;
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
 			CloudBigtableIO.initializeForWrite(p);
- 		p.apply(TextIO.Read.from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Loading to Bigtable").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+p.apply(TextIO.Read.named("Reading from File").from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Processing Synpuf data").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
 		p.run();
 

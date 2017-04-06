@@ -1,0 +1,14 @@
+com/example/common/DataflowExampleUtils$1.class
+com/example/common/ExampleBigQueryTableOptions.class
+com/example/common/ExampleBigQueryTableOptions$BigQueryTableFactory.class
+com/example/common/DataflowExampleOptions.class
+com/example/Synpuf$1.class
+com/example/common/ExamplePubsubTopicOptions.class
+com/example/common/PubsubFileInjector.class
+com/example/common/PubsubFileInjector$Unbound.class
+com/example/common/PubsubFileInjector$PubsubFileInjectorOptions.class
+com/example/common/DataflowExampleUtils.class
+com/example/common/PubsubFileInjector$Bound.class
+com/example/common/ExamplePubsubTopicOptions$PubsubTopicFactory.class
+com/example/common/DataflowExampleUtils$DataflowExampleUtilsOptions.class
+com/example/Synpuf.class
