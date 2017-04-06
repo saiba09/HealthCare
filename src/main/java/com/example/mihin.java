@@ -1,6 +1,7 @@
 package com.example;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
+com.google.cloud.dataflow.sdk.io.*;
 import com.google.cloud.dataflow.sdk.io.TextIO;
 import com.google.cloud.dataflow.sdk.options.DataflowPipelineOptions;
 import com.google.cloud.dataflow.sdk.runners.BlockingDataflowPipelineRunner;
@@ -37,11 +38,11 @@ public class  mihin
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
-  public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
+  public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
 
   			String line = c.element();
 		 	// CSVParser csvParser = new CSVParser();
