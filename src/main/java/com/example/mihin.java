@@ -20,10 +20,10 @@ import com.google.cloud.bigtable.dataflow.CloudBigtableTableConfiguration;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-import org.json.*
+// import org.json.simple.JSONArray;
+// import org.json.simple.JSONObject;
+// import org.json.simple.parser.JSONParser;
+// import org.json.*
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
