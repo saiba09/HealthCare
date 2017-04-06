@@ -23,7 +23,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
-import org.json.*
+import org.json.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class  mihin
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
