@@ -31,11 +31,14 @@ import org.apache.hadoop.hbase.util.Bytes;
 // import org.json.simple.parser.JSONParser;
 // import org.json.*
 
+import org.apache.avro.Schema
+import org.json.*;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-
+import java.io.File;
 public class  mihin
 {
 	
