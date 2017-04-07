@@ -89,6 +89,8 @@ public class  mihin
 		options.setStagingLocation("gs://mihin_data/staging1");
 
 		// Then create the pipeline.
+		
+  		Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
 		CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
