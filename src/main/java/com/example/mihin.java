@@ -16,7 +16,7 @@ import com.google.cloud.dataflow.sdk.values.PCollection;
 import java.io.IOException;
 import com.google.cloud.bigtable.dataflow.CloudBigtableIO;
 import com.google.cloud.bigtable.dataflow.CloudBigtableOptions;
-import com.google.cloud.bigtable.dataflow.CloudBigtableTableScanConfiguration;
+import com.google.cloud.bigtable.dataflow.CloudBigtableScanConfiguration;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -64,9 +64,9 @@ public class  mihin
  			 	row_id = row_id + 1;
         			    byte[] data = Bytes.toBytes( line );
 
-   	 				 put_object.addColumn(FAMILY, beneficiry_id,data);
+   	 				 put_object.addColumn(FAMILY, patient_id,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output(put);
+   					 c.output(put_object);
 
 
   }
