@@ -97,7 +97,8 @@ public class  mihin
 		Pipeline p = Pipeline.create(options);
 		CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
-		 p.apply(AvroIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt").withSchema(AvroAutoGenClass.class)).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM)).apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+		 p.apply(AvroIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt").withSchema(AvroAutoGenClass.class)).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM)).apply(AvroIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt").withSchema(schema)
+                                    .withSuffix(".avro"));
 		p.run();
 
 		//PCollection<String> lines=p.apply(TextIO.Read.from("gs://synpuf-data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv"))
