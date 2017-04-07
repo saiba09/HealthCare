@@ -47,7 +47,7 @@ public class  mihin
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, KV<String , String>>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
