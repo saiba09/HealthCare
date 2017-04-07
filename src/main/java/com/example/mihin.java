@@ -16,7 +16,7 @@ import com.google.cloud.dataflow.sdk.values.PCollection;
 import java.io.IOException;
 import com.google.cloud.bigtable.dataflow.CloudBigtableIO;
 import com.google.cloud.bigtable.dataflow.CloudBigtableOptions;
-import com.google.cloud.bigtable.dataflow.CloudBigtableTableConfiguration;
+import com.google.cloud.bigtable.dataflow.CloudBigtableTableScanConfiguration;
 import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
