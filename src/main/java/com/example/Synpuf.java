@@ -62,24 +62,24 @@ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutati
    				Put put_object = new Put(Bytes.toBytes(row_id));
 				row_id = row_id +1;	
      			    	byte[] data = Bytes.toBytes( parts[0]);
-   			put_object.addColumn(FAMILY, beneficiry_id,data));
- 			put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-			put_object.addColumn(FAMILY, SEX, Bytes.toBytes(parts[3])));
-			put_object.addColumn(FAMILY, ESRDI, Bytes.toBytes(parts[5])));
-			put_object.addColumn(FAMILY, state_code, Bytes.toBytes(parts[6])));
-			put_object.addColumn(FAMILY, SP_ALZHDMTA, Bytes.toBytes(parts[12])));
-			put_object.addColumn(FAMILY, SP_CHF, Bytes.toBytes(parts[13])));
-			put_object.addColumn(FAMILY, SP_CHRNKIDN, Bytes.toBytes(parts[14])));
-			put_object.addColumn(FAMILY, SP_CNCR, Bytes.toBytes(parts[15])));
-			put_object.addColumn(FAMILY, SP_COPD, Bytes.toBytes(parts[16])));
-			put_object.addColumn(FAMILY, SP_DEPRESSN, Bytes.toBytes(parts[17])));
-			put_object.addColumn(FAMILY, SP_DIABETES, Bytes.toBytes(parts[18])));
-			put_object.addColumn(FAMILY, SP_ISCHMCHT, Bytes.toBytes(parts[19])));
-			put_object.addColumn(FAMILY, SP_OSTEOPRS, Bytes.toBytes(parts[20])));
-			put_object.addColumn(FAMILY, SP_RA_OA, Bytes.toBytes(parts[21])));
-			put_object.addColumn(FAMILY, SP_STRKETIA, Bytes.toBytes(parts[22])));
-			put_object.addColumn(FAMILY, ANUAL_MEDICLAIM_INPATIENT, Bytes.toBytes(parts[23])));
-			put_object.addColumn(FAMILY, ANUAL_MEDICLAIM_OUTPATIENT, Bytes.toBytes(parts[27])));
+   			put_object.addColumn(FAMILY, beneficiry_id,data);
+ 			put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2]));
+			put_object.addColumn(FAMILY, SEX, Bytes.toBytes(parts[3]));
+			put_object.addColumn(FAMILY, ESRDI, Bytes.toBytes(parts[5]));
+			put_object.addColumn(FAMILY, state_code, Bytes.toBytes(parts[6]));
+			put_object.addColumn(FAMILY, SP_ALZHDMTA, Bytes.toBytes(parts[12]));
+			put_object.addColumn(FAMILY, SP_CHF, Bytes.toBytes(parts[13]));
+			put_object.addColumn(FAMILY, SP_CHRNKIDN, Bytes.toBytes(parts[14]));
+			put_object.addColumn(FAMILY, SP_CNCR, Bytes.toBytes(parts[15]));
+			put_object.addColumn(FAMILY, SP_COPD, Bytes.toBytes(parts[16]));
+			put_object.addColumn(FAMILY, SP_DEPRESSN, Bytes.toBytes(parts[17]));
+			put_object.addColumn(FAMILY, SP_DIABETES, Bytes.toBytes(parts[18]));
+			put_object.addColumn(FAMILY, SP_ISCHMCHT, Bytes.toBytes(parts[19]));
+			put_object.addColumn(FAMILY, SP_OSTEOPRS, Bytes.toBytes(parts[20]));
+			put_object.addColumn(FAMILY, SP_RA_OA, Bytes.toBytes(parts[21]));
+			put_object.addColumn(FAMILY, SP_STRKETIA, Bytes.toBytes(parts[22]));
+			put_object.addColumn(FAMILY, ANUAL_MEDICLAIM_INPATIENT, Bytes.toBytes(parts[23]));
+			put_object.addColumn(FAMILY, ANUAL_MEDICLAIM_OUTPATIENT, Bytes.toBytes(parts[27]));
 			c.output(put_object);
   }
 };
@@ -104,7 +104,7 @@ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutati
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
 			CloudBigtableIO.initializeForWrite(p);
-p.apply(TextIO.Read.named("Reading from File").from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Processing Synpuf data").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+p.apply(TextIO.Read.named("Reading from File").from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Processing Synpuf data").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.named("Writing to big table").writeToTable(config));
 	
 		p.run();
 
