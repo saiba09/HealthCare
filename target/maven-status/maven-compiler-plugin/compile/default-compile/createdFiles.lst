@@ -1,0 +1,8 @@
+com/example/common/DataflowExampleUtils$1.class
+com/example/common/DataflowExampleOptions.class
+com/example/common/ExampleBigQueryTableOptions$BigQueryTableFactory.class
+com/example/common/ExampleBigQueryTableOptions.class
+com/example/common/ExamplePubsubTopicOptions.class
+com/example/common/DataflowExampleUtils.class
+com/example/common/ExamplePubsubTopicOptions$PubsubTopicFactory.class
+com/example/common/DataflowExampleUtils$DataflowExampleUtilsOptions.class
