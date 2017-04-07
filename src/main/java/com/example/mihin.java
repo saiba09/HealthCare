@@ -1,7 +1,7 @@
 package com.example;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
-com.google.cloud.dataflow.sdk.io.*;
+import com.google.cloud.dataflow.sdk.io.*;
 import com.google.cloud.dataflow.sdk.io.TextIO;
 import com.google.cloud.dataflow.sdk.options.DataflowPipelineOptions;
 import com.google.cloud.dataflow.sdk.runners.BlockingDataflowPipelineRunner;
@@ -23,12 +23,13 @@ import org.apache.hadoop.hbase.util.Bytes;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
+import org.apache.avro.Schema
 import org.json.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-
+import java.io.File;
 public class  mihin
 {
 	
