@@ -62,9 +62,9 @@ public class  mihin
          			// c.output(part);
  			 Put put_object = new Put(Bytes.toBytes(row_id));
  			 	row_id = row_id + 1;
-        			    byte[] data[0] = Bytes.toBytes( line );
+        			    byte[] data = Bytes.toBytes( line );
 
-   	 				 put_object.addColumn(FAMILY, beneficiry_id,data[0]);
+   	 				 put_object.addColumn(FAMILY, beneficiry_id,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
    					 c.output(put);
 
