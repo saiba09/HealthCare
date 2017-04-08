@@ -47,11 +47,11 @@ public class  mihin
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, KV<String , String>> MUTATION_TRANSFORM = new DoFn<String, KV<String , String>>() {
+ static final DoFn<String, Put> MUTATION_TRANSFORM = new DoFn<String, Put>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
-  public void processElement(DoFn<String, KV<String , String>>.ProcessContext c) throws Exception {
+  public void processElement(DoFn<String, Put>.ProcessContext c) throws Exception {
 
   			String line = c.element();
 		 	// CSVParser csvParser = new CSVParser();
