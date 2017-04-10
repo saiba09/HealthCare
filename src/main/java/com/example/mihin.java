@@ -78,7 +78,7 @@ public class  mihin
 	{
 		// config object for writing to bigtable
 
-		 CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin_data").build();
+		// CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin_data").build();
 
 		// Start by defining the options for the pipeline.
 		
@@ -93,11 +93,12 @@ public class  mihin
 		
   		Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
-		CloudBigtableIO.initializeForWrite(p);
+		//CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
 
-		 p.apply(AvroIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt").withSchema(schema)).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
-			 //.apply(AvroIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt").withSchema(schema)
+		 p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+			 //.apply(CloudBigtableIO.writeToTable(config));
+			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt");
                                   //  .withSuffix(".avro"));
 
 		p.run();
