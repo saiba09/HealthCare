@@ -98,7 +98,7 @@ public class  mihin
 
 		 p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 			 //.apply(CloudBigtableIO.writeToTable(config));
-			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt");
+			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
                                   //  .withSuffix(".avro"));
 
 		p.run();
