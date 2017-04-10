@@ -87,7 +87,7 @@ public class  mihin
 		options.setProject("healthcare-12");
 		
 		// The 'gs' URI means that this is a Google Cloud Storage path
-		options.setStagingLocation("gs://mihin_data/staging1");
+		options.setStagingLocation("gs://mihin-data/staging1");
 
 		// Then create the pipeline.
 		
