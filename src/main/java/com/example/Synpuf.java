@@ -23,7 +23,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 public class Synpuf
 {
-  private static final byte[] FAMILY = Bytes.toBytes("beneficiry-summary");
+  private static final byte[] FAMILY = Bytes.toBytes("beneficiary-summary");
     private static final byte[] beneficiry_id = Bytes.toBytes("beneficiry_id");
     private static final byte[] death_date = Bytes.toBytes("death_date");
     private static final byte[] SEX = Bytes.toBytes("sex");
@@ -104,7 +104,7 @@ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutati
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
 			CloudBigtableIO.initializeForWrite(p);
-p.apply(TextIO.Read.named("Reading from File").from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Processing Synpuf data").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.named("Writing to big table").writeToTable(config));
+p.apply(TextIO.Read.named("Reading from File").from("gs://synpuf_data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv")).apply(ParDo.named("Processing Synpuf data").of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
 		p.run();
 
