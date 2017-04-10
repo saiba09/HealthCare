@@ -1,5 +1,5 @@
 package com.example;
-import java.io.ByteArrayOutputStream
+import java.io.ByteArrayOutputStream;
 import com.google.cloud.dataflow.sdk.io.*;
 import java.io.IOException;
 import com.google.cloud.dataflow.sdk.values.KV;
@@ -12,7 +12,7 @@ import com.google.cloud.dataflow.sdk.options.PipelineOptions;
 
 import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
 import java.nio.ByteBuffer;
-import com.google.cloud.dataflow.sdk.coders.KvCoder<K,V>;
+import com.google.cloud.dataflow.sdk.coders.*;
 import java.util.NoSuchElementException;
 import java.nio.channels.*;
 import org.slf4j.LoggerFactory;
