@@ -60,9 +60,9 @@ public class  mihin
       			// Output each word encountered into the output PCollection.
        			
          			// c.output(part);
- 			 Put put_object = new Put(Bytes.toBytes(row_id));
- 			 	row_id = row_id + 1;
-        			    byte[] data = Bytes.toBytes( line );
+//  			 Put put_object = new Put(Bytes.toBytes(row_id));
+//  			 	row_id = row_id + 1;
+//         			    byte[] data = Bytes.toBytes( line );
 
    	 				 put_object.addColumn(FAMILY, patient_id,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
@@ -91,7 +91,7 @@ public class  mihin
 
 		// Then create the pipeline.
 		
-  		Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
+  		//Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
 		//CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
