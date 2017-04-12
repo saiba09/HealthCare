@@ -96,15 +96,16 @@ public class  mihin
 		//CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
 
-		 p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
-			 //.apply(CloudBigtableIO.writeToTable(config));
-			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+		
                                   //  .withSuffix(".avro"));
 
 		p.run();
 
-		//PCollection<String> lines=p.apply(TextIO.Read.from("gs://synpuf-data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv"))
-		//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
+		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
+		lines.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+			 //.apply(CloudBigtableIO.writeToTable(config));
+			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 	}
 
