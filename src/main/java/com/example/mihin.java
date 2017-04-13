@@ -41,6 +41,18 @@ import java.util.HashMap;
 import java.io.File;
 public class  mihin
 {
+/* Class for merging and creating json object */
+public static class getJsonFn implements SerializableFunction<Iterable<String>, String> {
+    @Override
+    public String apply(Iterable<String> input) {
+      String obj = 0;
+      for (String item : input) {
+        object =object +" "+ item;
+      }
+      return obj;
+    }
+  }
+	
 	
   private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
@@ -113,7 +125,10 @@ public class  mihin
 		//PCollection<String> lines= 
 
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-		lines.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+		PCollection<String> obj = pc.apply(
+   		 Combine.globally(new obj.getJsonFn()));
+		
+		obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 			// .apply(CloudBigtableIO.writeToTable(config));
 			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
 			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
