@@ -24,7 +24,7 @@ import com.google.cloud.dataflow.sdk.values.KV;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
-//import org.json.*;
+import org.json.*;
 
 // import org.json.simple.JSONArray;
 // import org.json.simple.JSONObject;
@@ -54,17 +54,24 @@ public class  mihin
   public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
 
   			String line = c.element();
-		 	// CSVParser csvParser = new CSVParser();
- 			// String[] parts = csvParser.parseLine(line);
+			 JSONObject jsonObject = (JSONObject) obj;
+          //  System.out.println(jsonObject);
 
-      			// Output each word encountered into the output PCollection.
-       			
-         			// c.output(part);
+          		  JSONArray resource = (JSONArray) jsonObject.get("resources");
+           // System.out.println(name);
+          
+//             	System.out.println("Record : "+ i);
+            	
+                JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());	 	
+	  
+	  
+	  
+	  
  			 Put put_object = new Put(Bytes.toBytes(row_id));
  			 	row_id = row_id + 1;
         			    byte[] data = Bytes.toBytes( line );
 
-   	 				 put_object.addColumn(FAMILY, column,data);
+   	 				 put_object.addColumn(FAMILY, column,jsonObject1);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
    					 c.output(put_object);
 
