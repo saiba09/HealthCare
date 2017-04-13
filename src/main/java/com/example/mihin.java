@@ -126,7 +126,7 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 		//PCollection<String> lines= 
 
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-		PCollection<String> obj = pc.apply(
+		PCollection<String> obj = lines.apply(
    		 Combine.globally(new getJsonFn.JsonGet()));
 		
 		obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
