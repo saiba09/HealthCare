@@ -83,11 +83,11 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 	  
 	  
 	  
- 			 Put put_object = new Put(Bytes.toBytes(row_id));
+ 			// Put put_object = new Put(Bytes.toBytes(row_id));
  			 	row_id = row_id + 1;
-        			    byte[] data = Bytes.toBytes( jsonObject1.toString() );
+        			    //byte[] data = Bytes.toBytes( jsonObject1.toString() );
 
-   	 				 put_object.addColumn(FAMILY, column,data);
+   	 				// put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
    					 c.output(line);
 
