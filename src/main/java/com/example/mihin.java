@@ -42,16 +42,16 @@ public class  mihin
 {
 	
   private static final byte[] FAMILY = Bytes.toBytes("patient_entry");
-   private static final byte[] patient_id = Bytes.toBytes("patient_id");
+   private static final byte[] column = Bytes.toBytes("column");
 //     //private static final byte[] death_date = Bytes.toBytes("death_date");
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
+ static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
-  public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
+  public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
 
   			String line = c.element();
 		 	// CSVParser csvParser = new CSVParser();
@@ -60,13 +60,13 @@ public class  mihin
       			// Output each word encountered into the output PCollection.
        			
          			// c.output(part);
-//  			 Put put_object = new Put(Bytes.toBytes(row_id));
-//  			 	row_id = row_id + 1;
-//         			    byte[] data = Bytes.toBytes( line );
+ 			 Put put_object = new Put(Bytes.toBytes(row_id));
+ 			 	row_id = row_id + 1;
+        			    byte[] data = Bytes.toBytes( line );
 
-   	 				// put_object.addColumn(FAMILY, patient_id,data);
+   	 				 put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output("line 1 \n " +line);
+   					 c.output(put_object);
 
 
   }
@@ -78,7 +78,7 @@ public class  mihin
 	{
 		// config object for writing to bigtable
 
-		// CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin_data").build();
+		 CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin_data").build();
 
 		// Start by defining the options for the pipeline.
 		
@@ -93,7 +93,7 @@ public class  mihin
 		
   		//Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
-		//CloudBigtableIO.initializeForWrite(p);
+		CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
 
 		
@@ -104,8 +104,8 @@ public class  mihin
 
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
 		lines.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
-			 //.apply(CloudBigtableIO.writeToTable(config));
-			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+			 .apply(CloudBigtableIO.writeToTable(config));
+			// .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
 			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 		p.run();
