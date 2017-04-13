@@ -53,6 +53,7 @@ public class  mihin
 
   @Override
   public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
+        JSONParser parser = new JSONParser();
 
   			String line = c.element();
 			 JSONObject jsonObject = (JSONObject) line;
@@ -70,9 +71,9 @@ public class  mihin
 	  
  			 Put put_object = new Put(Bytes.toBytes(row_id));
  			 	row_id = row_id + 1;
-        			    byte[] data = Bytes.toBytes( line );
+        			    byte[] data = Bytes.toBytes( jsonObject1 );
 
-   	 				 put_object.addColumn(FAMILY, column,jsonObject1);
+   	 				 put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
    					 c.output(put_object);
 
