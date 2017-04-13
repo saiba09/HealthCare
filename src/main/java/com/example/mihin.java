@@ -42,7 +42,7 @@ import java.io.File;
 public class  mihin
 {
 /* Class for merging and creating json object */
-public class getJsonFn extends CombineFn<String, getJsonFn.JsonGet, String> {
+
 public static class JsonGet implements SerializableFunction<Iterable<String>, String> {
     @Override
     public String apply(Iterable<String> input) {
@@ -53,7 +53,7 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
       return obj;
     }
   }
-	 }
+	 
 	
   private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
@@ -69,16 +69,16 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
         JSONParser parser = new JSONParser();
 
   			String line = c.element();
-			 JSONObject json = (JSONObject) parser.parse(line);
-			 JSONObject jsonObject = (JSONObject) json;
+			// JSONObject json = (JSONObject) parser.parse(line);
+			 //JSONObject jsonObject = (JSONObject) json;
           //  System.out.println(jsonObject);
 
-          		  JSONArray resource = (JSONArray) jsonObject.get("resources");
+          		 // JSONArray resource = (JSONArray) jsonObject.get("resources");
            // System.out.println(name);
           
 //             	System.out.println("Record : "+ i);
             	
-                JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(0).toString());	 	
+            //    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(0).toString());	 	
 	  
 	  
 	  
@@ -89,7 +89,7 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 
    	 				 put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output(jsonObject1.toString());
+   					 c.output(line);
 
 
   }
@@ -126,8 +126,7 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 		//PCollection<String> lines= 
 
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-		PCollection<String> obj = lines.apply(
-   		 Combine.globally(new getJsonFn.JsonGet()));
+		PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
 		
 		obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 			// .apply(CloudBigtableIO.writeToTable(config));
