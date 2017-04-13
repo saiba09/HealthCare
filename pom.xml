@@ -103,6 +103,9 @@
   </build>
 
   <dependencies>
+	<!-- https://mvnrepository.com/artifact/org.apache.beam/beam-sdks-parent -->
+
+
     <!-- Adds a dependency on a specific version of the Dataflow SDK. -->
   <!-- Dependency for dataflow  connector -->
   <dependency>

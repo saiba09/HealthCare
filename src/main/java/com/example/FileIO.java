@@ -1,4 +1,5 @@
 package com.example;
+import org.slf4j.Logger;
 import java.io.ByteArrayOutputStream;
 import com.google.cloud.dataflow.sdk.io.*;
 import java.io.IOException;
@@ -6,8 +7,7 @@ import com.google.cloud.dataflow.sdk.values.KV;
 import org.apache.avro.Schema;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import org.apache.beam.sdk.util.CoderUtils;
-import org.apache.beam.sdk.util.Coder;
+import  com.google.cloud.dataflow.sdk.util.CoderUtils;
 import com.google.cloud.dataflow.sdk.options.PipelineOptions;
 
 import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
