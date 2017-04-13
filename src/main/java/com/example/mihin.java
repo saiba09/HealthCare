@@ -62,7 +62,7 @@ public class  mihin
           
 //             	System.out.println("Record : "+ i);
             	
-                JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());	 	
+                JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(0).toString());	 	
 	  
 	  
 	  
