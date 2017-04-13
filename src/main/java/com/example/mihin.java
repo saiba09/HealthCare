@@ -26,7 +26,7 @@ import com.google.cloud.dataflow.sdk.values.KV;
 //import org.json.simple.parser.JSONParser;
 import org.json.*;
 import org.json.simple.parser.JSONParser;
-
+import com.google.cloud.dataflow.sdk.transforms.*;
 // import org.json.simple.JSONArray;
 // import org.json.simple.JSONObject;
 // import org.json.simple.parser.JSONParser;
@@ -42,17 +42,18 @@ import java.io.File;
 public class  mihin
 {
 /* Class for merging and creating json object */
-public static class getJsonFn implements SerializableFunction<Iterable<String>, String> {
+public class getJsonFn extends CombineFn<String, getJsonFn.JsonGet, String> {
+public static class JsonGet implements SerializableFunction<Iterable<String>, String> {
     @Override
     public String apply(Iterable<String> input) {
-      String obj = 0;
+      String obj = "";
       for (String item : input) {
-        object =object +" "+ item;
+        obj = obj +" "+ item;
       }
       return obj;
     }
   }
-	
+	 }
 	
   private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
@@ -126,7 +127,7 @@ public static class getJsonFn implements SerializableFunction<Iterable<String>, 
 
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
 		PCollection<String> obj = pc.apply(
-   		 Combine.globally(new obj.getJsonFn()));
+   		 Combine.globally(new getJsonFn.JsonGet()));
 		
 		obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 			// .apply(CloudBigtableIO.writeToTable(config));
