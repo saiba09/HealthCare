@@ -56,7 +56,7 @@ public class  mihin
         JSONParser parser = new JSONParser();
 
   			String line = c.element();
-			 JSONObject json = (JSONObject) parser.parse(line)
+			 JSONObject json = (JSONObject) parser.parse(line);
 			 JSONObject jsonObject = (JSONObject) json;
           //  System.out.println(jsonObject);
 
