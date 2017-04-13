@@ -25,6 +25,7 @@ import com.google.cloud.dataflow.sdk.values.KV;
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
 import org.json.*;
+import org.json.simple.parser.JSONParser;
 
 // import org.json.simple.JSONArray;
 // import org.json.simple.JSONObject;
@@ -54,7 +55,7 @@ public class  mihin
   public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
 
   			String line = c.element();
-			 JSONObject jsonObject = (JSONObject) obj;
+			 JSONObject jsonObject = (JSONObject) line;
           //  System.out.println(jsonObject);
 
           		  JSONArray resource = (JSONArray) jsonObject.get("resources");
