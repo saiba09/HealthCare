@@ -41,7 +41,7 @@ import java.io.File;
 public class  mihin
 {
 	
-  private static final byte[] FAMILY = Bytes.toBytes("patient_entry");
+  private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
 //     //private static final byte[] death_date = Bytes.toBytes("death_date");
     private static long row_id = 0;
@@ -78,7 +78,7 @@ public class  mihin
 	{
 		// config object for writing to bigtable
 
-		 CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin_data").build();
+		 CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin-test").build();
 
 		// Start by defining the options for the pipeline.
 		
