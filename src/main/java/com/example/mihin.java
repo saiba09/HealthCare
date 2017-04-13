@@ -48,11 +48,11 @@ public class  mihin
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
 
- static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
   	private static final long serialVersionUID = 1L;
 
   @Override
-  public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception {
+  public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
         JSONParser parser = new JSONParser();
 
   			String line = c.element();
@@ -76,7 +76,7 @@ public class  mihin
 
    	 				 put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output(data);
+   					 c.output(jsonObject1.toString());
 
 
   }
