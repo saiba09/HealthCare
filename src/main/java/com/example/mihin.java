@@ -125,12 +125,18 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 
 		//PCollection<String> lines= 
 
-		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-		PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
+//	PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
+//		PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
 		
 		//obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+		//PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
+		//PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
+		PCollection<String> streamData = p.apply(PubsubIO.Read.named("ReadFromPubsub")
+                       .topic("/topics/test-topic"));
+		streamData.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+
 			// .apply(CloudBigtableIO.writeToTable(config));
-			 obj.apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
 			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 		p.run();
