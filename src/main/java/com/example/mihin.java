@@ -132,7 +132,7 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 		//PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
 		//PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
 		PCollection<String> streamData = p.apply(PubsubIO.Read.named("ReadFromPubsub")
-                       .topic("/topics/test-topic"));
+                       .topic("projects/healthcare-12/topics/test-topic"));
 		streamData.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 
 			// .apply(CloudBigtableIO.writeToTable(config));
