@@ -128,9 +128,9 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 		PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
 		PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
 		
-		obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+		//obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 			// .apply(CloudBigtableIO.writeToTable(config));
-			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+			 obj.apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
 			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 		p.run();
