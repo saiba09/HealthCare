@@ -1,4 +1,3 @@
-
 package com.example;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
@@ -51,9 +50,9 @@ public class mihin
       					HashMap map = (HashMap) jsonObject1.get("resource");
 					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate").toString()));
 					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender").toString()));
-					
+					c.output(put_object);
+
 			 }
-				 c.output(put_object);
 			 }
 			catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +77,7 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
- 		p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+ 		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatient100_entry.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
