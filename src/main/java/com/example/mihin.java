@@ -43,40 +43,16 @@ public class  mihin
 {	
   private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
-//     //private static final byte[] death_date = Bytes.toBytes("death_date");
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
  static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
   	private static final long serialVersionUID = 1L;
 	  @Override
  	 public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
-       		 JSONParser parser = new JSONParser();
+       		// JSONParser parser = new JSONParser();
 		// String line = c.element();
 		  c.output("hello");
-			// JSONObject json = (JSONObject) parser.parse(line);
-			 //JSONObject jsonObject = (JSONObject) json;
-          //  System.out.println(jsonObject);
-
-          		 // JSONArray resource = (JSONArray) jsonObject.get("resources");
-           // System.out.println(name);
-          
-//             	System.out.println("Record : "+ i);
-            	
-            //    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(0).toString());	 	
-	  
-	  
-	  
-	  
- 			// Put put_object = new Put(Bytes.toBytes(row_id));
- 			 	
-        			    //byte[] data = Bytes.toBytes( jsonObject1.toString() );
-
-   	 				// put_object.addColumn(FAMILY, column,data);
- 			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					
-
-
-  }
+	 }
 };
 		
 	
@@ -84,7 +60,6 @@ public class  mihin
 	public static void main(String[] args) 
 	{
 		// config object for writing to bigtable
-
 		 CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin-test").build();
 
 		// Start by defining the options for the pipeline.
@@ -100,7 +75,7 @@ public class  mihin
 		
   		//Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
-		CloudBigtableIO.initializeForWrite(p);
+		//CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
 
 		
