@@ -65,7 +65,7 @@ public class mihin
 	
 		// Start by defining the options for the pipeline.
 		CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin-test1").build();
-		DataflowPipelineOptions options = PipelineOptionsFactory.create()
+		DataflowPipelineOptions options = PipelineOptionsFactory.create();
     		.as(DataflowPipelineOptions.class);
 		options.setRunner(BlockingDataflowPipelineRunner.class);
 		options.setProject("healthcare-12");
