@@ -22,17 +22,22 @@ import org.json.simple.parser.ParseException;
 
 public class mihin
 {
-	static class ExtractFieldsFn extends DoFn<String, String> {
+	static class ExtractFieldsFn extends DoFn<String, String>  {
 		
 		@Override
     		public void processElement(ProcessContext c) throws IOException{
       			String line = c.element();
 			  JSONParser parser = new JSONParser();
-			Object obj = parser.parse(line);
-			 JSONObject jsonObject = (JSONObject) obj;
-			 JSONArray resource = (JSONArray) jsonObject.get("resources");
+			 try {
+				Object obj = parser.parse(line);
+				 JSONObject jsonObject = (JSONObject) obj;
+			 	JSONArray resource = (JSONArray) jsonObject.get("resources");
       			// Output each word encountered into the output PCollection.
-      			c.output(resource +"ended");
+      				c.output(resource +"ended");
+			 }
+			catch (Exception e) {
+            e.printStackTrace();
+        }
     		}
 		
 	}
