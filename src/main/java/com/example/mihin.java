@@ -59,7 +59,14 @@ public class mihin
         }
     		}
 	};
-		
+	static final DoFn<String, String> FORMAT_JSON = new DoFn<String, String>() {
+ 		@Override
+    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
+      			String line = c.element();
+			line = line.trim();
+			c.output(line);
+		}
+	};	
 	
 
 	public static void main(String[] args) 
@@ -77,7 +84,8 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
- 		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatient8456_entry.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.of(FORMAT_JSON)).apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
+ 		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
