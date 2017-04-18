@@ -1,3 +1,4 @@
+
 package com.example;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
@@ -56,7 +57,8 @@ public class mihin
 			catch (Exception e) {
             e.printStackTrace();
         }
-    		};
+    		}
+	};
 		
 	
 
@@ -85,5 +87,5 @@ public class mihin
 		//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 	}
-
+	
 }
