@@ -52,6 +52,7 @@ public class mihin
 					
 			 }
 				 c.output(put_object);
+			 }
 			catch (Exception e) {
             e.printStackTrace();
         }
