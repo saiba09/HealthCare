@@ -1,5 +1,6 @@
 package com.example;
-
+import com.google.cloud.dataflow.sdk.PipelineResult;
+import com.google.cloud.dataflow.sdk.PipelineResult.State;
 import com.google.cloud.dataflow.sdk.Pipeline;
 import com.google.cloud.dataflow.sdk.io.TextIO;
 import com.google.cloud.dataflow.sdk.options.DataflowPipelineOptions;
@@ -85,11 +86,15 @@ public class mihin
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
 		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.of(FORMAT_JSON)).apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
- 		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+ 		PipelineResult result=p.run();
+		while(result.getState().equals(PipelineResult.state.RUNNING) ){
+		continue;
+		}
+		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
-		p.run();
+		
 
 		//PCollection<String> lines=p.apply(TextIO.Read.from("gs://synpuf-data/DE1_0_2008_Beneficiary_Summary_File_Sample_1.csv"))
 		//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
