@@ -56,7 +56,7 @@ public class mihin
 			catch (Exception e) {
             e.printStackTrace();
         }
-    		}
+    		};
 		
 	
 
@@ -65,8 +65,7 @@ public class mihin
 	
 		// Start by defining the options for the pipeline.
 		CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin-test1").build();
-		DataflowPipelineOptions options = PipelineOptionsFactory.create();
-    		.as(DataflowPipelineOptions.class);
+		DataflowPipelineOptions options = PipelineOptionsFactory.create().as(DataflowPipelineOptions.class);
 		options.setRunner(BlockingDataflowPipelineRunner.class);
 		options.setProject("healthcare-12");
 		
@@ -76,8 +75,7 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
- 		p.apply(TextIO.Read.from("gs://mihin-data/temp.json"))
-     		.apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+ 		p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
