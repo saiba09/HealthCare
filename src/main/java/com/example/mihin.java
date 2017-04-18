@@ -40,35 +40,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.io.File;
 public class  mihin
-{
-/* Class for merging and creating json object */
-
-public static class JsonGet implements SerializableFunction<Iterable<String>, String> {
-    @Override
-    public String apply(Iterable<String> input) {
-      String obj = "";
-      for (String item : input) {
-        obj = obj +" "+ item;
-      }
-      return obj;
-    }
-  }
-	 
-	
+{	
   private static final byte[] FAMILY = Bytes.toBytes("cf1");
    private static final byte[] column = Bytes.toBytes("column");
 //     //private static final byte[] death_date = Bytes.toBytes("death_date");
     private static long row_id = 0;
     //private static final byte[] SEX = Bytes.toBytes("sex");
-
  static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
   	private static final long serialVersionUID = 1L;
-
-  @Override
-  public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
-        JSONParser parser = new JSONParser();
-
-  			String line = c.element();
+	  @Override
+ 	 public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
+       		 JSONParser parser = new JSONParser();
+		 String line = c.element();
 			// JSONObject json = (JSONObject) parser.parse(line);
 			 //JSONObject jsonObject = (JSONObject) json;
           //  System.out.println(jsonObject);
@@ -125,18 +108,11 @@ public static class JsonGet implements SerializableFunction<Iterable<String>, St
 
 		//PCollection<String> lines= 
 
-//	PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-//		PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
-		
-		//obj.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
-		//PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/Patient_entry.txt"));
-		//PCollection<String> obj = lines.apply( Combine.globally(new mihin.JsonGet()));
-		PCollection<String> streamData = p.apply(PubsubIO.Read.named("ReadFromPubsub")
-                       .topic("projects/healthcare-12/topics/test-topic").maxNumRecords(5) );
-		streamData.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
+	PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/formatedPatient_entry.json"))
+		.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 
 			// .apply(CloudBigtableIO.writeToTable(config));
-			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp.txt"));
+			 .apply(TextIO.Write.named("Writing to temp loc").to("gs://mihin-data/temp1.txt"));
 			//PCollection<String> fields = lines.apply(ParDo.of(new ExtractFieldsFn()));
 		//p.apply(TextIO.Write.to("gs://synpuf-data/temp.txt"));
 		p.run();
