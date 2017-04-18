@@ -72,7 +72,7 @@ public class  mihin
 
    	 				// put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output(line);
+   					 c.output("hello");
 
 
   }
