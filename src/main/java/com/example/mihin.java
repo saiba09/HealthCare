@@ -19,22 +19,39 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import com.google.cloud.bigtable.dataflow.CloudBigtableIO;
+import com.google.cloud.bigtable.dataflow.CloudBigtableOptions;
+import com.google.cloud.bigtable.dataflow.CloudBigtableScanConfiguration;
+import org.apache.hadoop.hbase.client.Mutation;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.util.Bytes;
+import java.util.HashMap;
 
 public class mihin
 {
-	static class ExtractFieldsFn extends DoFn<String, String>  {
-		
-		@Override
-    		public void processElement(ProcessContext c) throws IOException{
+	private static final byte[] FAMILY = Bytes.toBytes("cf1");
+        private static final byte[] bday = Bytes.toBytes("bday");
+        private static final byte[] gender = Bytes.toBytes("gender");
+	private static long row_id = 1;
+	static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ 		@Override
+    		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws IOException{
       			String line = c.element();
-			  JSONParser parser = new JSONParser();
+			 JSONParser parser = new JSONParser();
 			 try {
 				Object obj = parser.parse(line);
-				 JSONObject jsonObject = (JSONObject) obj;
+				JSONObject jsonObject = (JSONObject) obj;
 			 	JSONArray resource = (JSONArray) jsonObject.get("resources");
-      			// Output each word encountered into the output PCollection.
-      				c.output(resource +"ended");
+				for (int i = 0; i < resource.size(); i++) {
+					Put put_object = new Put(Bytes.toBytes(row_id));
+				        row_id = row_id +1;
+            				JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
+      					HashMap map = (HashMap) jsonObject1.get("resource");
+					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate")));
+					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender")));
+					
 			 }
+				 c.output(put_object);
 			catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +63,7 @@ public class mihin
 	{
 	
 		// Start by defining the options for the pipeline.
-		
+		CloudBigtableScanConfiguration config = new CloudBigtableScanConfiguration.Builder().withProjectId("healthcare-12").withInstanceId("hc-dataset").withTableId("mihin-test1").build();
 		DataflowPipelineOptions options = PipelineOptionsFactory.create()
     		.as(DataflowPipelineOptions.class);
 		options.setRunner(BlockingDataflowPipelineRunner.class);
@@ -57,10 +74,11 @@ public class mihin
 
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
-
+ 		CloudBigtableIO.initializeForWrite(p);
  		p.apply(TextIO.Read.from("gs://mihin-data/temp.json"))
-     		.apply(ParDo.of(new ExtractFieldsFn()))
-     		.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
+     		.apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+	
+     		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
 		p.run();
 
