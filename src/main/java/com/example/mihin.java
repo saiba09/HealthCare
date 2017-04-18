@@ -23,11 +23,9 @@ public class mihin
 		@Override
     		public void processElement(ProcessContext c) throws IOException{
       			String line = c.element();
-			CSVParser csvParser = new CSVParser();
- 			String[] parts = csvParser.parseLine(line);
-
+			
       			// Output each word encountered into the output PCollection.
-      			c.output(line);
+      			c.output(line +"ended");
     		}
 		
 	}
@@ -50,7 +48,7 @@ public class mihin
 
  		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry_Schema.txt"))
      		.apply(ParDo.of(new ExtractFieldsFn()))
-     		.apply(TextIO.Write.to("gs://mihin-data/temp1.txt"));
+     		.apply(TextIO.Write.to("gs://mihin-data/temp.json"));
 
 		p.run();
 
