@@ -51,7 +51,8 @@ public class  mihin
 	  @Override
  	 public void processElement(DoFn<String, String>.ProcessContext c) throws Exception {
        		 JSONParser parser = new JSONParser();
-		 String line = c.element();
+		// String line = c.element();
+		  c.output("hello");
 			// JSONObject json = (JSONObject) parser.parse(line);
 			 //JSONObject jsonObject = (JSONObject) json;
           //  System.out.println(jsonObject);
@@ -67,12 +68,12 @@ public class  mihin
 	  
 	  
  			// Put put_object = new Put(Bytes.toBytes(row_id));
- 			 	row_id = row_id + 1;
+ 			 	
         			    //byte[] data = Bytes.toBytes( jsonObject1.toString() );
 
    	 				// put_object.addColumn(FAMILY, column,data);
  			// 		 put_object.addColumn(FAMILY, death_date, Bytes.toBytes(parts[2])));
-   					 c.output("hello");
+   					
 
 
   }
@@ -99,7 +100,7 @@ public class  mihin
 		
   		//Schema schema = new Schema.Parser().parse(new File("gs://mihin-data/Patient_entry_Schema.txt"));
 		Pipeline p = Pipeline.create(options);
-		//CloudBigtableIO.initializeForWrite(p);
+		CloudBigtableIO.initializeForWrite(p);
 	//	PCollection<GenericRecord> records =
 
 		
