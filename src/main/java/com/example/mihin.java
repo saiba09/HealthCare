@@ -16,7 +16,7 @@ import com.google.cloud.dataflow.sdk.values.PCollection;
 import com.opencsv.CSVParser;
 import java.io.IOException;
 
-public class Synpuf
+public class mihin
 {
 	static class ExtractFieldsFn extends DoFn<String, String> {
 		
