@@ -48,8 +48,8 @@ public class mihin
 				        row_id = row_id +1;
             				JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       					HashMap map = (HashMap) jsonObject1.get("resource");
-					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate")));
-					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender")));
+					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate").toString()));
+					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender").toString()));
 					
 			 }
 				 c.output(put_object);
