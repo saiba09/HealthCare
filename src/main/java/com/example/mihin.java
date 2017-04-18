@@ -87,7 +87,7 @@ public class mihin
  		CloudBigtableIO.initializeForWrite(p);
 		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.of(FORMAT_JSON)).apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  		PipelineResult result=p.run();
-		while(result.getState().toString.equals("RUNNING") ){
+		while(result.getState().toString().equals("RUNNING") ){
 		continue;
 		}
 		p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
