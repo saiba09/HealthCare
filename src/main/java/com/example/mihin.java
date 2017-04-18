@@ -43,8 +43,9 @@ public class mihin
 				Object obj = parser.parse(line);
 				JSONObject jsonObject = (JSONObject) obj;
 			 	JSONArray resource = (JSONArray) jsonObject.get("resources");
+				 Put put_object = null ;
 				for (int i = 0; i < resource.size(); i++) {
-					Put put_object = new Put(Bytes.toBytes(row_id));
+				        put_object = new Put(Bytes.toBytes(row_id));
 				        row_id = row_id +1;
             				JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       					HashMap map = (HashMap) jsonObject1.get("resource");
