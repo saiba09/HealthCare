@@ -108,7 +108,7 @@ public class  mihin
 
 		//PCollection<String> lines= 
 
-	PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/formatedPatient_entry.json"))
+	PCollection<String> lines= p.apply(TextIO.Read.named("Reading MIHIN Data").from("gs://mihin-data/formatedPatient_entry.txt"))
 		.apply(ParDo.named("Mihin data flowing to BigTable").of(MUTATION_TRANSFORM))
 
 			// .apply(CloudBigtableIO.writeToTable(config));
