@@ -89,7 +89,7 @@ public class mihin
  		PipelineResult result=p.run();
 		if(result.getState().toString().equals("DONE") ){
 			p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
-
+			p.run();
 		}
 	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
