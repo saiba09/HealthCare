@@ -27,7 +27,7 @@ public class Synpuf
  			String[] parts = csvParser.parseLine(line);
 
       			// Output each word encountered into the output PCollection.
-      			c.outpu(line);
+      			c.output(line);
     		}
 		
 	}
