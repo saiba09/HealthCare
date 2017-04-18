@@ -15,6 +15,10 @@ import com.google.cloud.dataflow.sdk.util.gcsfs.GcsPath;
 import com.google.cloud.dataflow.sdk.values.PCollection;
 import com.opencsv.CSVParser;
 import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class mihin
 {
@@ -23,9 +27,12 @@ public class mihin
 		@Override
     		public void processElement(ProcessContext c) throws IOException{
       			String line = c.element();
-			
+			  JSONParser parser = new JSONParser();
+			Object obj = parser.parse(line);
+			 JSONObject jsonObject = (JSONObject) obj;
+			 JSONArray resource = (JSONArray) jsonObject.get("resources");
       			// Output each word encountered into the output PCollection.
-      			c.output(line +"ended");
+      			c.output(resource +"ended");
     		}
 		
 	}
@@ -46,9 +53,9 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
 
- 		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry_Schema.txt"))
+ 		p.apply(TextIO.Read.from("gs://mihin-data/temp.json"))
      		.apply(ParDo.of(new ExtractFieldsFn()))
-     		.apply(TextIO.Write.to("gs://mihin-data/temp.json"));
+     		.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
 		p.run();
 
