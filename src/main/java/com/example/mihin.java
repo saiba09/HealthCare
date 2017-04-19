@@ -35,9 +35,9 @@ public class mihin
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
-	static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
-    		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws IOException{
+    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
       			String line = c.element();
 			 JSONParser parser = new JSONParser();
 			 try {
@@ -52,7 +52,7 @@ public class mihin
       					HashMap map = (HashMap) jsonObject1.get("resource");
 					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate").toString()));
 					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender").toString()));
-					c.output(put_object);
+					c.output(put_object.toString());
 
 			 }
 			 }
@@ -74,17 +74,17 @@ public class mihin
   // inside the WordCount pipeline.
 
   public static class ProcessFile
-    extends PTransform<PCollection<String>, PCollection<Mutation>> {
+    extends PTransform<PCollection<String>, PCollection<String>> {
 
     @Override
-    public PCollection<Mutation> apply(PCollection<String> inputFile) {
+    public PCollection<String> apply(PCollection<String> inputFile) {
 
       // Convert lines of text into individual words.
       PCollection<String> formatedFile = inputFile.apply(
         ParDo.of(FORMAT_JSON));
 
       // Count the number of times each word occurs.
-      PCollection<Mutation> formatedInput =
+      PCollection<String> formatedInput =
         formatedFile.apply(ParDo.of(MUTATION_TRANSFORM));
       
       // Format each word and count into a printable string.
