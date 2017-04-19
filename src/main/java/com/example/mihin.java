@@ -67,7 +67,7 @@ public class mihin
       			String line = c.element();
 			line = line.trim();
 			line = line.replace("\n", "").replace("\r", "");
-			c.output(line);
+			c.output(line + "ended");
 		}
 	};	
 	  // The CountWords Composite Transform
@@ -84,12 +84,12 @@ public class mihin
         ParDo.of(FORMAT_JSON));
 
       // Count the number of times each word occurs.
-      PCollection<String> formatedInput =
-        formatedFile.apply(ParDo.of(MUTATION_TRANSFORM));
+//       PCollection<String> formatedInput =
+//         formatedFile.apply(ParDo.of(MUTATION_TRANSFORM));
       
       // Format each word and count into a printable string.
       
-      return formatedInput;
+      return formatedFile;
     }
   }
 
