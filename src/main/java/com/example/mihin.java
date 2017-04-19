@@ -34,6 +34,8 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Preconditions;
 import com.google.api.services.storage.Storage;
+import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
+import com.google.api.client.json.JsonFactory;	
 public class mihin
 {
 	private static final byte[] FAMILY = Bytes.toBytes("cf1");
@@ -80,15 +82,15 @@ public class mihin
         }
     		}
 	};
-	public static class ProcessFile extends PTransform<PCollection<String>, PCollection<String>> {
+// 	public static class ProcessFile extends PTransform<PCollection<String>, PCollection<String>> {
 
-    	@Override
-    	public PCollection<String> apply(PCollection<String> inputFile) {
-     	 PCollection<String> formatedFile = inputFile.apply(
-         ParDo.of(FORMAT_JSON));
-         return formatedFile;
-    }
-  }
+//     	@Override
+//     	public PCollection<String> apply(PCollection<String> inputFile) {
+//      	 PCollection<String> formatedFile = inputFile.apply(
+//          ParDo.of(FORMAT_JSON));
+//          return formatedFile;
+//     }
+//   }
 
 	public static void main(String[] args) 
 	{
