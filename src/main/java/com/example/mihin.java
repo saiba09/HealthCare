@@ -40,7 +40,7 @@ public class mihin
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
-	Private static String getFile (String BUCKET_NAME , String FILENAME){
+	Private static String getFile(String BUCKET_NAME , String FILENAME) {
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         		GoogleCredential credential = GoogleCredential.getApplicationDefault();
@@ -106,7 +106,8 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		PCollection<String> FormatedFile = p.apply(Create.of(mihin.getFile(BUCKET_NAME , FILENAME))).setCoder(StringUtf8Coder.of()) ;
+		String JSON = mihin.getFile(BUCKET_NAME , FILENAME);
+		PCollection<String> FormatedFile = p.apply(Create.of(JSON)).setCoder(StringUtf8Coder.of()) ;
 		//p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
 			//.apply(CloudBigtableIO.writeToTable(config));
 			FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
