@@ -69,7 +69,28 @@ public class mihin
 			c.output(line);
 		}
 	};	
-	
+	  // The CountWords Composite Transform
+  // inside the WordCount pipeline.
+
+  public static class ProcessFile
+    extends PTransform<PCollection<String>, PCollection<Mutation>> {
+
+    @Override
+    public PCollection<String> apply(PCollection<String> inputFile) {
+
+      // Convert lines of text into individual words.
+      PCollection<String> formatedFile = inputFile.apply(
+        ParDo.of(FORMAT_JSON));
+
+      // Count the number of times each word occurs.
+      PCollection<Mutation> formatedInput =
+        formatedFile.apply(ParDo.of(MUTATION_TRANSFORM));
+      
+      // Format each word and count into a printable string.
+      
+      return formatedInput;
+    }
+  }
 
 	public static void main(String[] args) 
 	{
@@ -86,8 +107,7 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		PCollection<String> lines = p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt"));
-		lines.apply(ParDo.of(FORMAT_JSON)).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile()).apply(CloudBigtableIO.writeToTable(config));
 			//.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  				
 
