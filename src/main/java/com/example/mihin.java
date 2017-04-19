@@ -66,7 +66,7 @@ public class mihin
     		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
       			String line = c.element();
 			line = line.trim();
-			line = line.replace("\n", "").replace("\r", "");
+			line = line.replaceall("\n", "").replaceall("\r", "");
 			c.output(line + "ended");
 		}
 	};	
