@@ -28,26 +28,31 @@ import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import java.util.HashMap;
-
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.util.Preconditions;
+import com.google.api.services.storage.Storage;
 public class mihin
 {
 	private static final byte[] FAMILY = Bytes.toBytes("cf1");
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
-	Private static String getFile(String BUCKET_NAME , String FILENAME){
+	Private static String getFile (String BUCKET_NAME , String FILENAME){
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         		GoogleCredential credential = GoogleCredential.getApplicationDefault();
         		Storage storage = new Storage.Builder(httpTransport, jsonFactory, credential)
         		.setApplicationName("Google-ObjectsListExample/1.0").build();
-         		Storage.Objects.Get obj = storage.objects().get(BUCKET_NAME, objectFileName);
+         		Storage.Objects.Get obj = storage.objects().get(BUCKET_NAME, FILENAME);
          		HttpResponse response = obj.execute();
 			String file=response.parseAsString();
 			JSONParser parser = new JSONParser();
                         Object obj1 = parser.parse(file);
 	       	        JSONObject jsonObject = (JSONObject) obj1;
-	    		return jsonObject.toString();
+	    		return (jsonObject.toString());
 	}
 	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
