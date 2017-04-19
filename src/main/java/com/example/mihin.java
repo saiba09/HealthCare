@@ -108,8 +108,9 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile()).apply(CloudBigtableIO.writeToTable(config));
-			//.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
+		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
+			//.apply(CloudBigtableIO.writeToTable(config));
+			.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  				
 
 		
