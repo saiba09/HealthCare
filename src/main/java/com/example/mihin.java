@@ -35,6 +35,20 @@ public class mihin
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
+	Private static String getFile(String BUCKET_NAME , String FILENAME){
+			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        		GoogleCredential credential = GoogleCredential.getApplicationDefault();
+        		Storage storage = new Storage.Builder(httpTransport, jsonFactory, credential)
+        		.setApplicationName("Google-ObjectsListExample/1.0").build();
+         		Storage.Objects.Get obj = storage.objects().get(BUCKET_NAME, objectFileName);
+         		HttpResponse response = obj.execute();
+			String file=response.parseAsString();
+			JSONParser parser = new JSONParser();
+                        Object obj1 = parser.parse(file);
+	       	        JSONObject jsonObject = (JSONObject) obj1;
+	    		return jsonObject.toString();
+	}
 	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
     		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
@@ -61,31 +75,13 @@ public class mihin
         }
     		}
 	};
-	Private static String getFile(String File){
-	    Object obj = parser.parse(new FileReader("Patient_entry.txt"));
-            JSONObject jsonObject = (JSONObject) obj;
-	    return jsonObject.toString();
-	}
-	  // The CountWords Composite Transform
-  // inside the WordCount pipeline.
+	public static class ProcessFile extends PTransform<PCollection<String>, PCollection<String>> {
 
-  public static class ProcessFile
-    extends PTransform<PCollection<String>, PCollection<String>> {
-
-    @Override
-    public PCollection<String> apply(PCollection<String> inputFile) {
-
-      // Convert lines of text into individual words.
-      PCollection<String> formatedFile = inputFile.apply(
-        ParDo.of(FORMAT_JSON));
-
-      // Count the number of times each word occurs.
-//       PCollection<String> formatedInput =
-//         formatedFile.apply(ParDo.of(MUTATION_TRANSFORM));
-      
-      // Format each word and count into a printable string.
-      
-      return formatedFile;
+    	@Override
+    	public PCollection<String> apply(PCollection<String> inputFile) {
+     	 PCollection<String> formatedFile = inputFile.apply(
+         ParDo.of(FORMAT_JSON));
+         return formatedFile;
     }
   }
 
@@ -97,14 +93,15 @@ public class mihin
 		DataflowPipelineOptions options = PipelineOptionsFactory.create().as(DataflowPipelineOptions.class);
 		options.setRunner(BlockingDataflowPipelineRunner.class);
 		options.setProject("healthcare-12");
-		
+		String BUCKET_NAME = "mihin-data";
+         	String FILENAME = "Patient_entry.txt";
 		// The 'gs' URI means that this is a Google Cloud Storage path
 		options.setStagingLocation("gs://mihin-data/staging1");
 
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		PCollection<String> FormatedFile = p.apply(Create.of(getFile(gs://mihin-data/Patient_entry.txt))).setCoder(StringUtf8Coder.of()) ;
+		PCollection<String> FormatedFile = p.apply(Create.of(mihin.getFile(BUCKET_NAME , FILENAME))).setCoder(StringUtf8Coder.of()) ;
 		//p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
 			//.apply(CloudBigtableIO.writeToTable(config));
 			FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
