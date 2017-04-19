@@ -61,15 +61,11 @@ public class mihin
         }
     		}
 	};
-	static final DoFn<String, String> FORMAT_JSON = new DoFn<String, String>() {
- 		@Override
-    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
-      			String line = c.element();
-			line = line.trim();
-			line = line.replaceAll("\n", "").replaceAll("\r", "");
-			c.output(line + "ended");
-		}
-	};	
+	Private static String getFile(String File){
+	    Object obj = parser.parse(new FileReader("Patient_entry.txt"));
+            JSONObject jsonObject = (JSONObject) obj;
+	    return jsonObject.toString();
+	}
 	  // The CountWords Composite Transform
   // inside the WordCount pipeline.
 
@@ -108,9 +104,10 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
+		PCollection<String> FormatedFile = p.apply(Create.of(FormatedFile)).setCoder(StringUtf8Coder.of()) ;
+		//p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
 			//.apply(CloudBigtableIO.writeToTable(config));
-			.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
+			FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  				
 
 		
