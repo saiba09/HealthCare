@@ -86,7 +86,7 @@ public class mihin
 		// Then create the pipeline.
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		PCollection<String> lines = p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt"))
+		PCollection<String> lines = p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt"));
 		PCollection<String> fields = lines.apply(ParDo.of(FORMAT_JSON));
 			//.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  		
