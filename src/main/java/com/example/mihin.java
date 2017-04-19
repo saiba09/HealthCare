@@ -45,7 +45,7 @@ public class mihin
 				JSONObject jsonObject = (JSONObject) obj;
 			 	JSONArray resource = (JSONArray) jsonObject.get("resources");
 				 Put put_object = null ;
-				for (int i = 0; i < resource.size(); i++) {
+				for (int i = 0; i < 100; i++) {
 				        put_object = new Put(Bytes.toBytes(row_id));
 				        row_id = row_id +1;
             				JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
