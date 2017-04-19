@@ -40,7 +40,7 @@ public class mihin
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
-	Private static String getFile(String BUCKET_NAME , String FILENAME) {
+	static String getFile(String BUCKET_NAME , String FILENAME) {
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         		GoogleCredential credential = GoogleCredential.getApplicationDefault();
