@@ -1,4 +1,5 @@
 package com.example;
+import com.google.cloud.dataflow.sdk.transforms.*;
 import com.google.cloud.dataflow.sdk.PipelineResult;
 import com.google.cloud.dataflow.sdk.PipelineResult.State;
 import com.google.cloud.dataflow.sdk.Pipeline;
@@ -76,7 +77,7 @@ public class mihin
     extends PTransform<PCollection<String>, PCollection<Mutation>> {
 
     @Override
-    public PCollection<String> apply(PCollection<String> inputFile) {
+    public PCollection<Mutation> apply(PCollection<String> inputFile) {
 
       // Convert lines of text into individual words.
       PCollection<String> formatedFile = inputFile.apply(
