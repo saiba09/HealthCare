@@ -36,9 +36,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Preconditions;
 import com.google.api.services.storage.Storage;
 import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
-import com.google.api.client.json.JsonFactory;	
+import com.google.api.client.json.JsonFactory.*;	
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.api.client.http.HttpResponse;
 public class mihin
 {
 	private static final byte[] FAMILY = Bytes.toBytes("cf1");
