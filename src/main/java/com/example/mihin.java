@@ -73,7 +73,7 @@ public class mihin
   }
 	static void getFile(String BUCKET_NAME , String FILENAME) {
 		String fileName="Patient_entry_program.json";
-		String BUCKET_NAME = "";
+		String OBJECT_NAME = "testObj";
 		try{
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -92,7 +92,7 @@ public class mihin
 			fileWriter.append(jsonObject.toString());
 			fileWriter.flush();
 			fileWriter.close();
-			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new File(FILE_NAME));
+			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new File(fileName));
 		}
 		catch(Exception e){
 			System.out.println(e);
