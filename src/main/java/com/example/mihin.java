@@ -113,7 +113,7 @@ public class mihin
 		options.setStagingLocation("gs://mihin-data/staging1");
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
+		/*if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
 			LOGGER.info("true");
 		     p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
@@ -121,7 +121,9 @@ public class mihin
 		}
 		else{
 		LOGGER.info("false");
-		}
+		}*/
+		 p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		     p.run();
 		}	
      			
 }
