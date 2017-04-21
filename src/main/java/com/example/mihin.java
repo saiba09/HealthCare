@@ -66,9 +66,9 @@ public class mihin
     		insertObject.getMediaHttpUploader().setDisableGZipContent(true);
     		return insertObject.execute();
   }
-	static void getFile(String BUCKET_NAME , String FILENAME) {
+	static boolean getFile(String BUCKET_NAME , String FILENAME) {
 		String fileName="Patient_entry_program.json";
-		String OBJECT_NAME = "testObj2";
+		String OBJECT_NAME = "PatientFormated.json";
 		try{
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -85,11 +85,13 @@ public class mihin
 			
 			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new ByteArrayInputStream(
         (jsonObject.toString()).getBytes("UTF-8")), "text/plain");
+			return true;
 		}
 		catch(Exception e){
 			System.out.println(e);
+			
 		}
-		
+		return false;
 	}
 	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
@@ -139,19 +141,18 @@ public class mihin
          	String FILENAME = "Patient_entry.txt";
 		// The 'gs' URI means that this is a Google Cloud Storage path
 		options.setStagingLocation("gs://mihin-data/staging1");
-		getFile(BUCKET_NAME , FILENAME);
+		Boolean status = getFile(BUCKET_NAME , FILENAME);
 		// Then create the pipeline.
-		//Pipeline p = Pipeline.create(options);
- 		//CloudBigtableIO.initializeForWrite(p);
+		if(status){
+		Pipeline p = Pipeline.create(options);
+ 		CloudBigtableIO.initializeForWrite(p);
 		//PCollection<String> FormatedFile = p.apply(Create.of(JSON)).setCoder(StringUtf8Coder.of()) ;
-		//p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
-			//.apply(CloudBigtableIO.writeToTable(config));
+		p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(MUTATION_TRANSFORM))
+			.apply(CloudBigtableIO.writeToTable(config));
 			//FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
- 				
-
-		
-			//p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json"))
-// 			p.run();
+ 			//p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json"))
+ 			p.run();
+		}
 		}	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
