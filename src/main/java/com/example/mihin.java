@@ -138,7 +138,7 @@ public class mihin
          	String FILENAME = "Patient_entry.txt";
 		// The 'gs' URI means that this is a Google Cloud Storage path
 		options.setStagingLocation("gs://mihin-data/staging1");
-		getFile(BUCKET_NAME , FILENAME)
+		getFile(BUCKET_NAME , FILENAME);
 		// Then create the pipeline.
 		//Pipeline p = Pipeline.create(options);
  		//CloudBigtableIO.initializeForWrite(p);
