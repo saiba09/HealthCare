@@ -18,14 +18,17 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 import java.util.HashMap;
 import com.utils.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class mihin
 {
 	private static final String BUCKET_NAME = "mihin-data";
-    private static final FormatFile fileFormater = new FormatFile();
-
+        private static final FormatFile fileFormater = new FormatFile();
+        private static final Logger LOGGER = Logger.getLogger(mihin.class.getName());
 	
 	public static class Patient_entry{
-		private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
+	    private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
 	    private static final byte[] BIRTHDATE = Bytes.toBytes("birthdate");
 	    private static final byte[] GENDER = Bytes.toBytes("gender");
 	    private static final byte[] CITY = Bytes.toBytes("city");
@@ -59,9 +62,9 @@ public class mihin
       				for (int i = 0; i < 100; i++) {
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
-      	        		JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
+      	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  				@SuppressWarnings("rawtypes")
-						HashMap map = (HashMap) jsonObject1.get("resource");
+				    HashMap map = (HashMap) jsonObject1.get("resource");
       	  			    JSONArray FullnameArray  = (JSONArray) map.get("name");
         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
         			    JSONArray nameArray = (JSONArray)(nameObject.get("given"));
@@ -87,7 +90,7 @@ public class mihin
       					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
-
+					LOGGER.info(put_object.toString());
       					c.output(put_object);
       				}
       			 }
@@ -111,8 +114,13 @@ public class mihin
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
 		if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
-				PDone apply = p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
-			    p.run();
+			LOGGER.info("true");
+		     p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		     p.run();
+			LOGGER.info("pipeline started");
+		}
+		else{
+		LOGGER.info("false");
 		}
 		}	
      			
