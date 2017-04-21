@@ -61,7 +61,7 @@ public class mihin
 	       	        JSONObject jsonObject = (JSONObject) obj1;
 	    		result = (jsonObject.toString());
 			}
-		catch(Exception){
+		catch(Exception e){
 			System.out.println(e);
 		}
 		return result;
