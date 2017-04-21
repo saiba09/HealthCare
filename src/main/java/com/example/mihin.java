@@ -45,8 +45,26 @@ public class mihin
         private static final byte[] bday = Bytes.toBytes("bday");
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
-	static String getFile(String BUCKET_NAME , String FILENAME) {
-		String result ="";
+	public static StorageObject uploadSimple(Storage storage, String bucketName, String objectName,
+     	 File data) throws FileNotFoundException, IOException {
+   		 return uploadSimple(storage, bucketName, objectName, new FileInputStream(data),
+       			 "application/octet-stream");
+  	}
+
+ 	public static StorageObject uploadSimple(Storage storage, String bucketName, String objectName,
+     		 InputStream data, String contentType) throws IOException {
+    		InputStreamContent mediaContent = new InputStreamContent(contentType, data);
+    		Storage.Objects.Insert insertObject = storage.objects().insert(bucketName, null, mediaContent)
+       		 .setName(objectName);
+    // The media uploader gzips content by default, and alters the Content-Encoding accordingly.
+    // GCS dutifully stores content as-uploaded. This line disables the media uploader behavior,
+    // so the service stores exactly what is in the InputStream, without transformation.
+    		insertObject.getMediaHttpUploader().setDisableGZipContent(true);
+    		return insertObject.execute();
+  }
+	static void getFile(String BUCKET_NAME , String FILENAME) {
+		String fileName="Patient_entry_program.json";
+		String BUCKET_NAME = "";
 		try{
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -59,12 +77,18 @@ public class mihin
 			JSONParser parser = new JSONParser();
                         Object obj1 = parser.parse(file);
 	       	        JSONObject jsonObject = (JSONObject) obj1;
-	    		result = (jsonObject.toString());
-			}
+	    		//result = (jsonObject.toString());
+			FileWriter fileWriter = null;
+			fileWriter = new FileWriter(fileName);
+			fileWriter.append(jsonObject.toString());
+			fileWriter.flush();
+			fileWriter.close();
+			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new File(FILE_NAME));
+		}
 		catch(Exception e){
 			System.out.println(e);
 		}
-		return result;
+		
 	}
 	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
@@ -114,20 +138,19 @@ public class mihin
          	String FILENAME = "Patient_entry.txt";
 		// The 'gs' URI means that this is a Google Cloud Storage path
 		options.setStagingLocation("gs://mihin-data/staging1");
-
+		getFile(BUCKET_NAME , FILENAME)
 		// Then create the pipeline.
-		Pipeline p = Pipeline.create(options);
- 		CloudBigtableIO.initializeForWrite(p);
-		String JSON = mihin.getFile(BUCKET_NAME , FILENAME);
-		PCollection<String> FormatedFile = p.apply(Create.of(JSON)).setCoder(StringUtf8Coder.of()) ;
+		//Pipeline p = Pipeline.create(options);
+ 		//CloudBigtableIO.initializeForWrite(p);
+		//PCollection<String> FormatedFile = p.apply(Create.of(JSON)).setCoder(StringUtf8Coder.of()) ;
 		//p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(new ProcessFile())
 			//.apply(CloudBigtableIO.writeToTable(config));
-			FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
+			//FormatedFile.apply(TextIO.Write.to("gs://mihin-data/formatedPatientGen.json"));
  				
 
 		
 			//p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientGen.json"))
-			p.run();
+// 			p.run();
 		}	
      		//.apply(TextIO.Write.to("gs://mihin-data/temp.txt"));
 
