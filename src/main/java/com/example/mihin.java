@@ -39,6 +39,15 @@ import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
 import com.google.api.client.json.JsonFactory;	
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.storage.model.StorageObject;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 public class mihin
 {
 	private static final byte[] FAMILY = Bytes.toBytes("cf1");
