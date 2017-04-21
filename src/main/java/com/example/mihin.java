@@ -46,6 +46,7 @@ public class mihin
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
 	static String getFile(String BUCKET_NAME , String FILENAME) {
+			try{
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         		GoogleCredential credential = GoogleCredential.getApplicationDefault();
@@ -58,6 +59,10 @@ public class mihin
                         Object obj1 = parser.parse(file);
 	       	        JSONObject jsonObject = (JSONObject) obj1;
 	    		return (jsonObject.toString());
+			}
+		catch(Exception){
+			System.out.println(e);
+		}
 	}
 	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  		@Override
