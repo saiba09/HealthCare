@@ -122,7 +122,7 @@ public class mihin
 		else{
 		LOGGER.info("false");
 		}*/
-		 p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 		}	
      			
