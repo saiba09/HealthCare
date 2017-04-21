@@ -44,7 +44,7 @@ public class mihin
  	  
 		@SuppressWarnings("unused")
 		@Override
-    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
+    		public void processElement(DoFn<String, String>.ProcessContext c) throws Exception{
       			String line = c.element();
       			JSONParser parser = new JSONParser();
       			 try {
@@ -92,7 +92,7 @@ public class mihin
       				}
       			 }
       			catch (Exception e) {
-      	        e.printStackTrace();
+      	     throw e;
       	    }
     		}
 	};
