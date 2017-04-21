@@ -37,7 +37,7 @@ import com.google.api.client.util.Preconditions;
 import com.google.api.services.storage.Storage;
 import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
 import com.google.api.client.json.JsonFactory;	
-import com.google.api.client.json.jackson2.JacksonFactory.*;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.HttpResponse;
 public class mihin
 {
@@ -52,7 +52,7 @@ public class mihin
         		Storage storage = new Storage.Builder(httpTransport, jsonFactory, credential)
         		.setApplicationName("Google-ObjectsListExample/1.0").build();
          		Storage.Objects.Get obj = storage.objects().get(BUCKET_NAME, FILENAME);
-         		HttpResponse response = obj.execute();
+         		HttpResponse response = obj.executeMedia();
 			String file=response.parseAsString();
 			JSONParser parser = new JSONParser();
                         Object obj1 = parser.parse(file);
