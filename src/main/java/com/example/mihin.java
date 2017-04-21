@@ -60,12 +60,12 @@ public class mihin
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
-      	  				@SuppressWarnings("rawtypes")
+      	  				
 				    HashMap map = (HashMap) jsonObject1.get("resource");
       	  			    JSONArray FullnameArray  = (JSONArray) map.get("name");
         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
         			    JSONArray nameArray = (JSONArray)(nameObject.get("given"));
-        			    System.out.println(nameArray);
+        			  
         			    if (nameArray.size() == 2) {
     						patientName = (nameArray.get(0) +" "+nameArray.get(1));
     					}
