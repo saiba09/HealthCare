@@ -90,7 +90,7 @@ public class mihin
       					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
-					LOGGER.info(put_object.toString());
+					LOGGER.severe(put_object.toString());
       					c.output(put_object);
       				}
       			 }
