@@ -56,12 +56,6 @@ public class mihin
         private static final byte[] gender = Bytes.toBytes("gender");
 	private static long row_id = 1;
 	public static StorageObject uploadSimple(Storage storage, String bucketName, String objectName,
-     	 File data) throws FileNotFoundException, IOException {
-   		 return uploadSimple(storage, bucketName, objectName, new FileInputStream(data),
-       			 "application/octet-stream");
-  	}
-
- 	public static StorageObject uploadSimple(Storage storage, String bucketName, String objectName,
      		 InputStream data, String contentType) throws IOException {
     		InputStreamContent mediaContent = new InputStreamContent(contentType, data);
     		Storage.Objects.Insert insertObject = storage.objects().insert(bucketName, null, mediaContent)
@@ -74,7 +68,7 @@ public class mihin
   }
 	static void getFile(String BUCKET_NAME , String FILENAME) {
 		String fileName="Patient_entry_program.json";
-		String OBJECT_NAME = "testObj";
+		String OBJECT_NAME = "testObj2";
 		try{
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         		JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -88,12 +82,9 @@ public class mihin
                         Object obj1 = parser.parse(file);
 	       	        JSONObject jsonObject = (JSONObject) obj1;
 	    		//result = (jsonObject.toString());
-			FileWriter fileWriter = null;
-			fileWriter = new FileWriter(fileName);
-			fileWriter.append(jsonObject.toString());
-			fileWriter.flush();
-			fileWriter.close();
-			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new File(fileName));
+			
+			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new ByteArrayInputStream(
+        (jsonObject.yoString()).getBytes("UTF-8")), "text/plain");
 		}
 		catch(Exception e){
 			System.out.println(e);
