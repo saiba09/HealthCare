@@ -26,14 +26,8 @@ public class mihin
 	private static final String BUCKET_NAME = "mihin-data";
         private static final FormatFile fileFormater = new FormatFile();
         private static final Logger LOGGER = Logger.getLogger(mihin.class.getName());
-	
-	
-	  
-	   
-	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
- 	     private static long row_id = 1;    
-	    private static final long serialVersionUID = 1L;
- 	    private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
+	  private static long row_id = 1;    
+	  private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
 	    private static final byte[] BIRTHDATE = Bytes.toBytes("birthdate");
 	    private static final byte[] GENDER = Bytes.toBytes("gender");
 	    private static final byte[] CITY = Bytes.toBytes("city");
@@ -42,6 +36,12 @@ public class mihin
 	    private static final byte[] POSTALCODE = Bytes.toBytes("postalcode");
 	    private static final byte[] STATE = Bytes.toBytes("state");
 
+	  
+	   
+	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ 	   
+	    private static final long serialVersionUID = 1L;
+ 	  
 		@SuppressWarnings("unused")
 		@Override
     		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws IOException{
