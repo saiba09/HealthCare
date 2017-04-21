@@ -84,7 +84,7 @@ public class mihin
 	    		//result = (jsonObject.toString());
 			
 			StorageObject writeObject = uploadSimple(storage, BUCKET_NAME, OBJECT_NAME, new ByteArrayInputStream(
-        (jsonObject.yoString()).getBytes("UTF-8")), "text/plain");
+        (jsonObject.toString()).getBytes("UTF-8")), "text/plain");
 		}
 		catch(Exception e){
 			System.out.println(e);
