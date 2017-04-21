@@ -93,9 +93,9 @@ public class mihin
 		}
 		return false;
 	}
-	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
+	static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
  		@Override
-    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
+    		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws IOException{
       			String line = c.element();
 			 JSONParser parser = new JSONParser();
 			 try {
@@ -110,7 +110,7 @@ public class mihin
       					HashMap map = (HashMap) jsonObject1.get("resource");
 					put_object.addColumn(FAMILY, bday, Bytes.toBytes(map.get("birthDate").toString()));
 					put_object.addColumn(FAMILY, gender, Bytes.toBytes(map.get("gender").toString()));
-					c.output(put_object.toString());
+					c.output(put_object);
 
 			 }
 			 }
