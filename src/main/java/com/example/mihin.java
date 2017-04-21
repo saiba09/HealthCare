@@ -88,7 +88,7 @@ public class mihin
       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
 					LOGGER.info(put_object.toString());
-      					c.output(put_object.toString());
+      					c.output(postalCode);
       				}
       			 }
       			catch (Exception e) {
