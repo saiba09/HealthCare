@@ -38,13 +38,13 @@ public class mihin
 
 	  
 	   
-	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+	    static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
  	   
 	    private static final long serialVersionUID = 1L;
  	  
 		@SuppressWarnings("unused")
 		@Override
-    		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws IOException{
+    		public void processElement(DoFn<String, String>.ProcessContext c) throws IOException{
       			String line = c.element();
       			JSONParser parser = new JSONParser();
       			 try {
@@ -88,7 +88,7 @@ public class mihin
       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
 					LOGGER.info(put_object.toString());
-      					c.output(put_object);
+      					c.output(put_object.toString());
       				}
       			 }
       			catch (Exception e) {
