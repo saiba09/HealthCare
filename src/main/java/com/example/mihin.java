@@ -62,7 +62,7 @@ public class mihin
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  				
 				    HashMap map = (HashMap) jsonObject1.get("resource");
-       	  			    JSONArray FullnameArray  = (JSONArray) map.get("name");
+       	  			    JSONArray FullnameArray  = (JSONArray)parser.parse((map.get("name")).toString()); ;
         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
          			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
 				     if (nameArray.size() == 2) {
