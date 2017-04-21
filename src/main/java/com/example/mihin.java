@@ -62,18 +62,17 @@ public class mihin
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  				
 				    HashMap map = (HashMap) jsonObject1.get("resource");
-//       	  			    JSONArray FullnameArray  = (JSONArray) map.get("name");
-//         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
-//         			    JSONArray nameArray = (JSONArray)(nameObject.get("given"));
-        			  
-//         			    if (nameArray.size() == 2) {
-//     						patientName = (nameArray.get(0) +" "+nameArray.get(1));
-//     					}
-//         			    if (nameArray.size() == 1) {
-//     					patientName = (nameArray.get(0)).toString();
-//     				    }
+       	  			    JSONArray FullnameArray  = (JSONArray) map.get("name");
+        		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
+         			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
+				     if (nameArray.size() == 2) {
+     						patientName = (nameArray.get(0) +" "+nameArray.get(1));
+     					}
+         			    if (nameArray.size() == 1) {
+     					patientName = (nameArray.get(0)).toString();
+     				    }
         			    if ( map.get("address") != null) {
-            			    JSONArray addressArray  = (JSONArray) map.get("address");
+    			    JSONArray addressArray  = (JSONArray)(JSONArray)parser.parse((map.get("address")).toString()); ;
             				JSONObject addressObject  = (JSONObject) parser.parse(((JSONArray) map.get("address")).get(0).toString());
                 			city = (addressObject.get("city")).toString();
                 			state = (addressObject.get("state")).toString();
