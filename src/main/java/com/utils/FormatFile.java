@@ -40,7 +40,7 @@ public class FormatFile {
 	       	JSONObject jsonObject = (JSONObject) obj1;
 	     // result = (jsonObject.toString());
 			uploadSimple(storage, BUCKET_NAME, DESTINATION_FILE, new ByteArrayInputStream((jsonObject.toString()).getBytes("UTF-8")), "text/plain");
-			//return true;
+			return true;
 		}
 		catch(Exception e){
 			System.out.println(e);
