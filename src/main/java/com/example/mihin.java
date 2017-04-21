@@ -119,7 +119,8 @@ public class mihin
 		else{
 		LOGGER.info("false");
 		}*/
-		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
+			 //apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 		}	
      			
