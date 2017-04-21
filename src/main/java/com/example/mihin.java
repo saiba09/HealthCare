@@ -27,8 +27,13 @@ public class mihin
         private static final FormatFile fileFormater = new FormatFile();
         private static final Logger LOGGER = Logger.getLogger(mihin.class.getName());
 	
-	public static class Patient_entry{
-	    private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
+	
+	  
+	   
+	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
+ 	     private static long row_id = 1;    
+	    private static final long serialVersionUID = 1L;
+ 	    private static final byte[] FAMILY = Bytes.toBytes("ColumnFamily1");
 	    private static final byte[] BIRTHDATE = Bytes.toBytes("birthdate");
 	    private static final byte[] GENDER = Bytes.toBytes("gender");
 	    private static final byte[] CITY = Bytes.toBytes("city");
@@ -36,14 +41,6 @@ public class mihin
 	    private static final byte[] P_ID = Bytes.toBytes("p_id");
 	    private static final byte[] POSTALCODE = Bytes.toBytes("postalcode");
 	    private static final byte[] STATE = Bytes.toBytes("state");
-
-	    private static long row_id = 1;
-	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {
- 		    
-		/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
 
 		@SuppressWarnings("unused")
 		@Override
@@ -90,7 +87,7 @@ public class mihin
       					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
-					LOGGER.severe(put_object.toString());
+					LOGGER.info(put_object.toString());
       					c.output(put_object);
       				}
       			 }
@@ -99,7 +96,7 @@ public class mihin
       	    }
     		}
 	};
-	}
+	
 
 
 	@SuppressWarnings("unused")
@@ -122,7 +119,7 @@ public class mihin
 		else{
 		LOGGER.info("false");
 		}*/
-		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 		}	
      			
