@@ -76,7 +76,7 @@ public class mihin
 				  put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
 				  put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
                			  put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
-				  put_object.addColumn(FAMILY, NAME, Bytes.toBytes(name));
+				  put_object.addColumn(FAMILY, NAME, Bytes.toBytes(patientName));
 				  put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map2.get("id").toString()));
       	  			  put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map2.get("birthDate").toString()));
       				  put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map2.get("gender").toString()));
