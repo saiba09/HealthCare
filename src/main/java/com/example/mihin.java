@@ -35,14 +35,9 @@ public class mihin
 	    private static final byte[] P_ID = Bytes.toBytes("p_id");
 	    private static final byte[] POSTALCODE = Bytes.toBytes("postalcode");
 	    private static final byte[] STATE = Bytes.toBytes("state");
-
-	  
-	   
-	    static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {
- 	   
+	    static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {   
 	    private static final long serialVersionUID = 1L;
- 	  
-		@SuppressWarnings("unused")
+ 	    @SuppressWarnings("unused")
 		@Override
     		public void processElement(DoFn<String, String>.ProcessContext c) throws Exception{
       			String line = c.element();
@@ -71,34 +66,18 @@ public class mihin
           			    if (nameArray.size() == 1) {
       					patientName = (nameArray.get(0)).toString();
       				    }
-//         			    if ( map.get("address") != null) {
-//     			    JSONArray addressArray  = (JSONArray)(JSONArray)parser.parse((map.get("address")).toString()); ;
-//             				JSONObject addressObject  = (JSONObject) parser.parse(((JSONArray) map.get("address")).get(0).toString());
-//                 			city = (addressObject.get("city")).toString();
-//                 			state = (addressObject.get("state")).toString();
-//                 			postalCode = (addressObject.get("postalCode")).toString();
-//         				}
-      					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
+					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
-      					//put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("").toString()));
-      					//put_object.addColumn(FAMILY, NAME, Bytes.toBytes(patientName));
-//       					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
-//       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
-//       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
- 					LOGGER.info(put_object.toString());
-//       					c.output(jsonObject1.toString());
+      					LOGGER.info(put_object.toString());
 					c.output(patientName);
       				}
       			 }
       			catch (Exception e) {
-      	     throw e;
+      	   		throw e;
       	    }
     		}
 	};
-	
-
-
 	@SuppressWarnings("unused")
 	public static void main(String[] args) 
 	{
