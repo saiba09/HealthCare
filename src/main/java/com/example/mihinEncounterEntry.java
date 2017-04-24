@@ -73,13 +73,7 @@ public class mihinEncounterEntry
 					indicationObject =  (JSONArray) map2.get("indication");
 					indication_count = indicationObject.size();
 					}
-				}
-			}
-			catch(Exception e){
-				e.printStackTrace(); 
-				throw e;
-			}
-			for (int j = 1; j <= indication_count; j++) {
+					for (int j = 1; j <= indication_count; j++) {
 				JSONObject indicationObj = (JSONObject) indicationObject.get(j-1);	  
 				String var = "indication"+j;
 				String indication = (indicationObj.get("reference").toString());
@@ -95,6 +89,14 @@ public class mihinEncounterEntry
 			put_object.addColumn(FAMILY, ENDTIME, Bytes.toBytes(endTime));
 			put_object.addColumn(FAMILY, KIND, Bytes.toBytes(kind));
 			c.output(put_object);	
+					
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace(); 
+				throw e;
+			}
+			
 			//c.output("inserted  : " );
 
 		}
