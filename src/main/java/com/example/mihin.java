@@ -63,14 +63,14 @@ public class mihin
       	  				
 				    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
      				    JSONArray FullnameArray  = map.get("name") ;
-//         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
-//          			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
-// 				     if (nameArray.size() == 2) {
-//      						patientName = (nameArray.get(0) +" "+nameArray.get(1));
-//      					}
-//          			    if (nameArray.size() == 1) {
-//      					patientName = (nameArray.get(0)).toString();
-//      				    }
+         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
+          			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
+ 				     if (nameArray.size() == 2) {
+      						patientName = (nameArray.get(0) +" "+nameArray.get(1));
+      					}
+          			    if (nameArray.size() == 1) {
+      					patientName = (nameArray.get(0)).toString();
+      				    }
 //         			    if ( map.get("address") != null) {
 //     			    JSONArray addressArray  = (JSONArray)(JSONArray)parser.parse((map.get("address")).toString()); ;
 //             				JSONObject addressObject  = (JSONObject) parser.parse(((JSONArray) map.get("address")).get(0).toString());
@@ -88,7 +88,7 @@ public class mihin
 //       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
  					LOGGER.info(put_object.toString());
 //       					c.output(jsonObject1.toString());
-					c.output(FullnameArray);
+					c.output(patientName);
       				}
       			 }
       			catch (Exception e) {
