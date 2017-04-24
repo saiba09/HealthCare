@@ -52,7 +52,7 @@ public class mihin
       				String state = "default";
       				String postalCode ="default";
 				String id="default",birthDate="default",gender="default";
-      				for (int i = 0; i < 1000; i++) {
+      				for (int i = 0; i < resource.size(); i++) {
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
