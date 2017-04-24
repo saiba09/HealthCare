@@ -51,7 +51,7 @@ public class mihinEncounterEntry
 				Object obj = parser.parse(line);
 				JSONObject jsonObject = (JSONObject) obj;
 				JSONArray resource = (JSONArray) jsonObject.get("resources");
-				for (int i = 0; i < 50; i++) {
+				for (int i = 0; i < resource.size(); i++) {
 					put_object = new Put(Bytes.toBytes(row_id));
    				    row_id = row_id +1;
 					JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
