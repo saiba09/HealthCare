@@ -58,17 +58,17 @@ public class mihin
       	  			    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
      				    JSONArray FullnameArray  = map.get("name") ;
          		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
-          			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
- 				     if (nameArray.size() == 2) {
-      						patientName = (nameArray.get(0) +" "+nameArray.get(1));
+          			    ArrayList<String> arr = (ArrayList<String>) nameObject.get("given");
+    		 	            if (arr.size() == 2) {
+      						patientName = (arr.get(0) +" "+arr.get(1));
       					}
-          			    if (nameArray.size() == 1) {
-      					patientName = (nameArray.get(0)).toString();
+          			    if (arr.size() == 1) {
+      					patientName = (arr.get(0)).toString();
       				    }
-					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
-      	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
-      					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
-      					LOGGER.info(put_object.toString());
+// 					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
+//       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
+//       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
+//       					LOGGER.info(put_object.toString());
 					c.output(patientName);
       				}
       			 }
