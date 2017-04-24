@@ -111,21 +111,21 @@ public class mihin
 		options.setStagingLocation("gs://mihin-data/staging1");
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
-			LOGGER.info("true");
-		      p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
-			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
-			 .apply(CloudBigtableIO.writeToTable(config));
-		     p.run();
-			LOGGER.info("pipeline started");
-		}
-		else{
-		LOGGER.info("false");
-		}
-// 		 p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
+// 		if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
+// 			LOGGER.info("true");
+// 		      p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
 // 			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
 // 			 .apply(CloudBigtableIO.writeToTable(config));
 // 		     p.run();
+// 			LOGGER.info("pipeline started");
+// 		}
+// 		else{
+// 		LOGGER.info("false");
+// 		}
+		 p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
+			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
+			 .apply(CloudBigtableIO.writeToTable(config));
+		     p.run();
 		}	
      			
 }
