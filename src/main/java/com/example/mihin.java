@@ -58,18 +58,26 @@ public class mihin
       	  			    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
      				    JSONArray FullnameArray  = map.get("name") ;
          		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
-          			    ArrayList<String> arr = (ArrayList<String>) nameObject.get("given");
-    		 	            if (arr.size() == 2) {
+          			    ArrayList<String> nameArray = (ArrayList<String>) nameObject.get("given");
+    		 	            if (nameArray.size() == 2) {
       						patientName = (arr.get(0) +" "+arr.get(1));
       					}
-          			    if (arr.size() == 1) {
+          			    if (nameArray.size() == 1) {
       					patientName = (arr.get(0)).toString();
       				    }
+				    if ( map.get("address") != null) {
+    			     		JSONArray addressArray  = map.get("address") ;
+    					JSONObject addressObject  = (JSONObject) parser.parse((addressArray.get(0)).toString());
+    					city = (addressObject.get("city"));
+        				state = (addressObject.get("state"));
+       			    		postalCode = (addressObject.get("postalCode"));
+				}
+					
 // 					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
 //       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
 //       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
 //       					LOGGER.info(put_object.toString());
-					c.output(patientName);
+					c.output(patientName + " : " + city);
       				}
       			 }
       			catch (Exception e) {
