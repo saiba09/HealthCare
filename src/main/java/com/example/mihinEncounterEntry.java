@@ -69,8 +69,10 @@ public class mihinEncounterEntry
 					endDate = endDate.substring(0,endDate.indexOf("T"));
 					 kind =  (String) map.get("class");
 					 e_id = (String) map.get("id");
+					if (map2.containsKey("indication")) {
 					indicationObject =  (JSONArray) map2.get("indication");
 					indication_count = indicationObject.size();
+					}
 				}
 			}
 			catch(Exception e){
