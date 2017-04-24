@@ -62,31 +62,31 @@ public class mihin
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  				
 				    HashMap map = (HashMap) jsonObject1.get("resource");
-       	  			    JSONArray FullnameArray  = (JSONArray)parser.parse((map.get("name")).toString()); ;
+       	  			    JSONObject FullnameArray  = (JSONObject)parser.parse((map.get("name")).toString()); ;
         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
-         			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
+         			    JSONObject nameArray = (JSONObject)parser.parse((nameObject.get("given")).toString());
 				     if (nameArray.size() == 2) {
      						patientName = (nameArray.get(0) +" "+nameArray.get(1));
      					}
          			    if (nameArray.size() == 1) {
      					patientName = (nameArray.get(0)).toString();
      				    }
-        			    if ( map.get("address") != null) {
-    			    JSONArray addressArray  = (JSONArray)(JSONArray)parser.parse((map.get("address")).toString()); ;
-            				JSONObject addressObject  = (JSONObject) parser.parse(((JSONArray) map.get("address")).get(0).toString());
-                			city = (addressObject.get("city")).toString();
-                			state = (addressObject.get("state")).toString();
-                			postalCode = (addressObject.get("postalCode")).toString();
-        				}
+//         			    if ( map.get("address") != null) {
+//     			    JSONArray addressArray  = (JSONArray)(JSONArray)parser.parse((map.get("address")).toString()); ;
+//             				JSONObject addressObject  = (JSONObject) parser.parse(((JSONArray) map.get("address")).get(0).toString());
+//                 			city = (addressObject.get("city")).toString();
+//                 			state = (addressObject.get("state")).toString();
+//                 			postalCode = (addressObject.get("postalCode")).toString();
+//         				}
       					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
       					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("").toString()));
       					put_object.addColumn(FAMILY, NAME, Bytes.toBytes(patientName));
-      					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
-      					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
-      					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
-					LOGGER.info(put_object.toString());
+//       					put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
+//       					put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
+//       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
+ 					LOGGER.info(put_object.toString());
       					c.output(jsonObject1.toString());
       				}
       			 }
