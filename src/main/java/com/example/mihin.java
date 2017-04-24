@@ -48,9 +48,10 @@ public class mihin
       			 	JSONArray resource = (JSONArray) jsonObject.get("resources");
       				Put put_object = null ;
       				String patientName = "";
-      				String city = "";
-      				String state = "";
-      				String postalCode ="";
+      				String city = "default";
+      				String state = "default";
+      				String postalCode ="default";
+				String id="default",birthDate="default",gender="default";
       				for (int i = 0; i < resource.size(); i++) {
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
@@ -73,6 +74,15 @@ public class mihin
         				state = (addressObject.get("state")).toString();
        			    		postalCode = (addressObject.get("postalCode")).toString();
 					}
+				   if (map2.containsKey("gender")) {
+        			      gender = (map2.get("gender").toString());
+				  }
+				    if (map2.containsKey("id")) {
+        			      id = (map2.get("id").toString());
+				  }
+				    if (map2.containsKey("birthDate")) {
+        			      birthDate = (map2.get("birthDate").toString());
+				  }
 				  put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
 				  put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
                			  put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
