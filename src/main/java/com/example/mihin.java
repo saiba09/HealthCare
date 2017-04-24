@@ -87,9 +87,9 @@ public class mihin
 				  put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
                			  put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
 				  put_object.addColumn(FAMILY, NAME, Bytes.toBytes(patientName));
-				  put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map2.get("id").toString()));
-      	  			  put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map2.get("birthDate").toString()));
-      				  put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map2.get("gender").toString()));
+				  put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(id));
+      	  			  put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(birthDate));
+      				  put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(gender));
       				  LOGGER.info(put_object.toString());
 				  c.output(put_object);	
 				  //c.output(patientName + " : " + city + "  " +map2.get("birthDate"));
@@ -111,15 +111,17 @@ public class mihin
 		options.setStagingLocation("gs://mihin-data/staging1");
 		Pipeline p = Pipeline.create(options);
  		CloudBigtableIO.initializeForWrite(p);
-		/*if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
+		if(fileFormater.getFile(BUCKET_NAME, "Patient_entry.txt", "PatientFormated.json")){
 			LOGGER.info("true");
-		     p.apply(TextIO.Read.from("gs://mihin-data/PatientFormated.json")).apply(ParDo.of(Patient_entry.MUTATION_TRANSFORM)).apply(CloudBigtableIO.writeToTable(config));
+		      p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
+			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
+			 .apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 			LOGGER.info("pipeline started");
 		}
 		else{
 		LOGGER.info("false");
-		}*/
+		}
 		 p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
 			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
 			 .apply(CloudBigtableIO.writeToTable(config));
