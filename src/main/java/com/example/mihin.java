@@ -56,13 +56,13 @@ public class mihin
       				String city = "";
       				String state = "";
       				String postalCode ="";
-      				for (int i = 0; i < 100; i++) {
+      				for (int i = 0; i < 1; i++) {
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  				
-				    HashMap map = (HashMap) jsonObject1.get("resource");
-//     				    JSONArray FullnameArray  = (JSONArray) parser.parse(map.get("name").toString()); ;
+				    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
+     				    JSONArray FullnameArray  = (map.get("name") ;
 //         		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
 //          			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
 // 				     if (nameArray.size() == 2) {
@@ -88,7 +88,7 @@ public class mihin
 //       					put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
  					LOGGER.info(put_object.toString());
 //       					c.output(jsonObject1.toString());
-					c.output(map.get("name").toString());
+					c.output(FullnameArray);
       				}
       			 }
       			catch (Exception e) {
