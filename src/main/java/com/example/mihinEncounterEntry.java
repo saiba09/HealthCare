@@ -36,11 +36,11 @@ public class mihinEncounterEntry
 	private static final byte[] STARTTIME = Bytes.toBytes("starttime");
 	private static final byte[] ENDTIME = Bytes.toBytes("endtime");
 
-	static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {   
+	static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {   
 		private static final long serialVersionUID = 1L;
 		@SuppressWarnings("unused")
 		@Override
-		public void processElement(DoFn<String, String>.ProcessContext c) throws Exception{
+		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception{
 			String line = c.element();
 			Put put_object = null ;
 			int indication_count =0;
@@ -94,8 +94,8 @@ public class mihinEncounterEntry
 			put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(patientId));
 			put_object.addColumn(FAMILY, ENDTIME, Bytes.toBytes(endTime));
 			put_object.addColumn(FAMILY, KIND, Bytes.toBytes(kind));
-		//	c.output(put_object);	
-			c.output("inserted  : " );
+			c.output(put_object);	
+			//c.output("inserted  : " );
 
 		}
 	
