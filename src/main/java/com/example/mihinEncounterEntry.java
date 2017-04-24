@@ -113,8 +113,9 @@ public static void main(String[] args)
 	options.setStagingLocation("gs://mihin-data/staging1");
 	Pipeline p = Pipeline.create(options);
 	CloudBigtableIO.initializeForWrite(p);
-	p.apply(TextIO.Read.from("gs://mihin-data/formatedEncounterEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(TextIO.Write.to("gs://mihin-data/temp-test-encounter.txt"));
-	//.apply(CloudBigtableIO.writeToTable(config));
+	p.apply(TextIO.Read.named("Reading file").from("gs://mihin-data/formatedEncounterEntry.json")).apply(ParDo.named("Cleansing of input data").of(MUTATION_TRANSFORM))
+		//.apply(TextIO.Write.to("gs://mihin-data/temp-test-encounter.txt"));
+	.apply(CloudBigtableIO.named("Writing to big Table ").writeToTable(config));
 	p.run();
 }	
 }
