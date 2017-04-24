@@ -55,8 +55,7 @@ public class mihin
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
-      	  				
-				    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
+      	  			    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
      				    JSONArray FullnameArray  = map.get("name") ;
          		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
           			    JSONArray nameArray = (JSONArray)parser.parse((nameObject.get("given")).toString());
@@ -98,7 +97,7 @@ public class mihin
 		else{
 		LOGGER.info("false");
 		}*/
-		 p.apply(TextIO.Read.from("gs://mihin-data/temp.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
+		 p.apply(TextIO.Read.from("gs://mihin-data/Patient_entry.txt")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
 			 //apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 		}	
