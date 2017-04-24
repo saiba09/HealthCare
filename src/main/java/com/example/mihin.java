@@ -60,10 +60,10 @@ public class mihin
          		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
           			    ArrayList<String> nameArray = (ArrayList<String>) nameObject.get("given");
     		 	            if (nameArray.size() == 2) {
-      						patientName = (arr.get(0) +" "+arr.get(1));
+      						patientName = (nameArray.get(0) +" "+nameArray.get(1));
       					}
           			    if (nameArray.size() == 1) {
-      					patientName = (arr.get(0)).toString();
+      					patientName = (nameArray.get(0)).toString();
       				    }
 				    if ( map.get("address") != null) {
     			     		JSONArray addressArray  = map.get("address") ;
