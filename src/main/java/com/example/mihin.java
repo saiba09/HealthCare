@@ -68,9 +68,9 @@ public class mihin
 				    if ( map.get("address") != null) {
     			     		JSONArray addressArray  = map.get("address") ;
     					JSONObject addressObject  = (JSONObject) parser.parse((addressArray.get(0)).toString());
-    					city = (addressObject.get("city"));
-        				state = (addressObject.get("state"));
-       			    		postalCode = (addressObject.get("postalCode"));
+    					city = (addressObject.get("city")).toString();
+        				state = (addressObject.get("state")).toString();
+       			    		postalCode = (addressObject.get("postalCode")).toString();
 				}
 					
 // 					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
