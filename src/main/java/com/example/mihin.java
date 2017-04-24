@@ -51,7 +51,7 @@ public class mihin
       				String city = "";
       				String state = "";
       				String postalCode ="";
-      				for (int i = 0; i < 1; i++) {
+      				for (int i = 0; i < resource.size(); i++) {
       				    put_object = new Put(Bytes.toBytes(row_id));
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
