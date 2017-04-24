@@ -56,6 +56,7 @@ public class mihin
       				    row_id = row_id +1;
       	        		    JSONObject jsonObject1 = (JSONObject) parser.parse(resource.get(i).toString());
       	  			    HashMap<String , JSONArray> map = (HashMap) jsonObject1.get("resource");
+				    HashMap map2  = (HashMap) jsonObject1.get("resource");
      				    JSONArray FullnameArray  = map.get("name") ;
          		 	    JSONObject nameObject  = (JSONObject) parser.parse(FullnameArray.get(0).toString());
           			    ArrayList<String> nameArray = (ArrayList<String>) nameObject.get("given");
@@ -77,7 +78,7 @@ public class mihin
 //       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
 //       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
 //       					LOGGER.info(put_object.toString());
-					c.output(patientName + " : " + city);
+					c.output(patientName + " : " + city + "  " +map2.get("birthDate"));
       				}
       			 }
       			catch (Exception e) {
