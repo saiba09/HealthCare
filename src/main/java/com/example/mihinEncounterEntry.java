@@ -115,7 +115,7 @@ public static void main(String[] args)
 	CloudBigtableIO.initializeForWrite(p);
 	p.apply(TextIO.Read.named("Reading file").from("gs://mihin-data/formatedEncounterEntry.json")).apply(ParDo.named("Cleansing of input data").of(MUTATION_TRANSFORM))
 		//.apply(TextIO.Write.to("gs://mihin-data/temp-test-encounter.txt"));
-	.apply(CloudBigtableIO.writeToTable(config).named("Writing to big Table "));
+	.apply(CloudBigtableIO.writeToTable(config));
 	p.run();
 }	
 }
