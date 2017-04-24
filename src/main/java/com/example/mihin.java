@@ -35,11 +35,11 @@ public class mihin
 	    private static final byte[] P_ID = Bytes.toBytes("p_id");
 	    private static final byte[] POSTALCODE = Bytes.toBytes("postalcode");
 	    private static final byte[] STATE = Bytes.toBytes("state");
-	    static final DoFn<String, String> MUTATION_TRANSFORM = new DoFn<String, String>() {   
+	    static final DoFn<String, Mutation> MUTATION_TRANSFORM = new DoFn<String, Mutation>() {   
 	    private static final long serialVersionUID = 1L;
  	    @SuppressWarnings("unused")
 		@Override
-    		public void processElement(DoFn<String, String>.ProcessContext c) throws Exception{
+    		public void processElement(DoFn<String, Mutation>.ProcessContext c) throws Exception{
       			String line = c.element();
       			JSONParser parser = new JSONParser();
       			 try {
@@ -72,13 +72,17 @@ public class mihin
     					city = (addressObject.get("city")).toString();
         				state = (addressObject.get("state")).toString();
        			    		postalCode = (addressObject.get("postalCode")).toString();
-				}
-					
-// 					put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map.get("id").toString()));
-//       	  				put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map.get("birthDate").toString()));
-//       					put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map.get("gender").toString()));
-//       					LOGGER.info(put_object.toString());
-					c.output(patientName + " : " + city + "  " +map2.get("birthDate"));
+					}
+				  put_object.addColumn(FAMILY, CITY, Bytes.toBytes(city));
+				  put_object.addColumn(FAMILY, STATE, Bytes.toBytes(state));
+               			  put_object.addColumn(FAMILY, POSTALCODE, Bytes.toBytes(postalCode));
+				  put_object.addColumn(FAMILY, NAME, Bytes.toBytes(name));
+				  put_object.addColumn(FAMILY, P_ID, Bytes.toBytes(map2.get("id").toString()));
+      	  			  put_object.addColumn(FAMILY, BIRTHDATE, Bytes.toBytes(map2.get("birthDate").toString()));
+      				  put_object.addColumn(FAMILY, GENDER, Bytes.toBytes(map2.get("gender").toString()));
+      				  LOGGER.info(put_object.toString());
+				  c.output(put_object);	
+				  //c.output(patientName + " : " + city + "  " +map2.get("birthDate"));
       				}
       			 }
       			catch (Exception e) {
@@ -106,8 +110,9 @@ public class mihin
 		else{
 		LOGGER.info("false");
 		}*/
-		 p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM)).apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
-			 //apply(CloudBigtableIO.writeToTable(config));
+		 p.apply(TextIO.Read.from("gs://mihin-data/formatedPatientEntry.json")).apply(ParDo.of(MUTATION_TRANSFORM))
+			 //.apply(TextIO.Write.to("gs://mihin-data/temp-test.txt"));
+			 .apply(CloudBigtableIO.writeToTable(config));
 		     p.run();
 		}	
      			
